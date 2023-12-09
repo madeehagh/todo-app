@@ -1,12 +1,21 @@
-import express, { Request, Response , Application } from 'express';
+import express from 'express';
+import {APILogger} from "./logger/ApiLogger";
+import {TaskController} from "./controllers/TaskController";
 
-const app: Application = express();
-const port = process.env.PORT || 8000;
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Welcome to Express & TypeScript Server');
-});
 
-app.listen(port, () => {
-    console.log(`Server is Fire at http://localhost:${port}`);
-});
+
+class App {
+    public express: express.Application;
+    public logger: APILogger;
+    public taskController: TaskController;
+
+
+    constructor() {
+        this.express = express();
+        this.taskController = new TaskController();
+        this.logger = new APILogger();
+    }
+}
+
+export default new App().express;

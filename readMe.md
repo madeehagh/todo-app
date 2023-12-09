@@ -1,4 +1,4 @@
-# Todo App Backend
+# Todo App
 
 This is a TypeScript project that utilizes Express.js for building a todo list web server.
 
