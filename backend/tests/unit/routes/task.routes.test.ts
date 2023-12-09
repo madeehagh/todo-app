@@ -1,6 +1,6 @@
 // @ts-ignore
 import request from 'supertest';
-import taskRoutes from '../../../src/routes/taskRoutes';
+import taskRoutes from '../../../src/routes/task.routes';
 // @ts-ignore
 import express from 'express';
 

@@ -1,11 +1,14 @@
 {
   "compilerOptions": {
-    "module": "commonjs",
-    "target": "es5",
-    "sourceMap": true,
-    "outDir": "dist",
+    "allowSyntheticDefaultImports": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "module": "commonjs",
+    "moduleResolution": "Node",
+    "outDir": "dist",
+    "sourceMap": true,
+    "target": "es5",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
   },
   "types": ["node", "jest", "supertest"],
   "include": [
