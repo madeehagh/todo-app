@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import { Task } from '../models/task';
+import { Task } from '../entities/task';
 import { TaskService } from '../service/TaskService';
 import { APILogger } from '../logger/api.logger';
 import {plainToInstance} from "class-transformer";

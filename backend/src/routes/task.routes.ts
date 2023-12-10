@@ -2,7 +2,7 @@ import express, { Request, Response, Router } from 'express';
 import { plainToInstance } from 'class-transformer';
 
 import { TaskController } from "../controllers/task.controller";
-import { Task } from "../models/task";
+import { Task } from "../entities/task";
 
 const router: Router = express.Router();
 const taskController = new TaskController();

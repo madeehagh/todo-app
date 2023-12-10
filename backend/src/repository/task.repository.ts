@@ -1,5 +1,5 @@
 import { getRepository, Repository } from 'typeorm';
-import { Task } from '../models/task';
+import { Task } from '../entities/task';
 import appDataSource from '../db/db.config';
 
 class TaskRepository {

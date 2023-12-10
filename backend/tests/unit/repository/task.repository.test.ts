@@ -1,62 +1,43 @@
-/*
-import { TaskRepository } from "../../../src/repository/task.repository";
-import { Task } from "../../../src/models/task";
-import {Sequelize} from "sequelize-typescript";
+import TaskRepository from "../../../src/repository/task.repository";
+import {Task} from "../../../src/entities/task";
 
 describe('TaskRepository', () => {
     let taskRepository: TaskRepository;
-    let mockedSequelize: Sequelize;
 
-    beforeAll(async () => {
-        mockedSequelize = new Sequelize({
-            database: 'todo-test',
-            dialect: 'sqlite',
-            username: 'root',
-            password: '',
-            validateOnly: true,
-            models: [__dirname + '/models'],
-        });
-        await mockedSequelize.sync({ force: true });
+    beforeEach(() => {
+        // Create a new instance of TaskRepository before each test
         taskRepository = new TaskRepository();
     });
 
-    afterAll(async () => {
-        await mockedSequelize.close(); // Close the database connection after all tests
+    afterEach(() => {
+        // Clean up any created tasks after each test
+        // You may need to implement a delete method in the TaskRepository class to delete tasks
+        // Uncomment the following line if you have a delete method
+        // taskRepository.deleteTask();
     });
 
-    describe('createTask', () => {
-        it('should create a task and return success message', async () => {
-            const taskData = {
-                name: 'Task 1',
-                description: 'Task description',
-                status: true,
-                deadline: '2022-12-31',
-                dataValues: {},
-                _creationAttributes: {},
-                isNewRecord: true,
-            };
+    it('should save a task to the database', async () => {
+        // Create a new task object
+        const task: Task = {
+            id: 1,
+            name: 'Test Task',
+            description: 'This is a test task',
+            status: 'ACTIVE',
+            deadline: new Date().toISOString()
+        };
 
-            const result = await taskRepository.createTask(taskData);
+        // Save the task to the database
+        const savedTask = await taskRepository.saveTask(task);
 
-            expect(result).toEqual({ message: 'Task created successfully' });
-        });
+        // Expect the saved task to have an ID assigned
+        expect(savedTask.id).toBeDefined();
 
-        it('should throw an error if task creation fails', async () => {
-            const taskData = {
-                name: 'Task 1',
-                description: 'Task description',
-                status: true,
-                deadline: '2022-12-31',
-                dataValues: {},
-                isNewRecord: true,
-            };
-
-            // Mock the create method to throw an error
-            jest.spyOn(taskRepository.getTaskRepository(), 'create').mockRejectedValue(new Error('Task creation failed'));
-
-            await expect(taskRepository.createTask(<Task>taskData)).rejects.toThrow('Task creation failed');
-        });
+        // Expect the saved task to have the same properties as the original task
+        expect(savedTask.name).toBe(task.name);
+        expect(savedTask.description).toBe(task.description);
+        expect(savedTask.status).toBe(task.status);
+        expect(savedTask.deadline).toBe(task.deadline);
     });
 
-    // Rest of the test cases...
-});*/
+    // Add more test cases for different scenarios if needed
+});

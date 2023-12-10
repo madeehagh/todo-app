@@ -1,7 +1,7 @@
 /*
 import { TaskRepository } from "../../../src/repository/task.repository";
 import { Repository } from 'typeorm';
-import { Task } from "../../../src/models/task";
+import { Task } from "../../../src/entities/task";
 
 describe('TaskRepository Integration Test', () => {
     let taskRepository: TaskRepository;

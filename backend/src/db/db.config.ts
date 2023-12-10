@@ -2,7 +2,7 @@ import { DataSource } from 'typeorm';
 
 // @ts-ignore
 import * as ormConfig from '../../ormconfig.json';
-import { Task } from '../models/task';
+import { Task } from '../entities/task';
 
 const host = ormConfig.host || 'localhost';
 const userName = ormConfig.username;
