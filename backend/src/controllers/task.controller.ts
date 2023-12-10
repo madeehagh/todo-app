@@ -1,8 +1,6 @@
 import { Request, Response } from 'express';
-import {PrismaClient, Task} from "@prisma/client";
-import { TaskService } from '../service/TaskService';
-import { APILogger } from '../logger/api.logger';
-import {plainToInstance} from "class-transformer";
+import { PrismaClient, Task} from "@prisma/client";
+import {APILogger} from '../logger/api.logger';
 
 export class TaskController {
     private logger: APILogger;
@@ -16,7 +14,6 @@ export class TaskController {
     getAllTasks = async (req: Request, res: Response): Promise<void> => {
         try {
             const tasks: Task[] = await this.taskClient.findMany();
-
             res.status(200).json({ data: tasks });
         } catch (error) {
             this.logger.error('Error while getting all tasks', error);
@@ -74,7 +71,7 @@ export class TaskController {
         const taskId: number = parseInt(req.params.id);
 
         try {
-            const task: Task | undefined = await this.taskClient.delete(
+             await this.taskClient.delete(
             { where: { id: taskId }});
 
             res.status(200).json({ data: {} });
