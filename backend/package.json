@@ -16,7 +16,7 @@
   "scripts": {
     "lint": "eslint --ext .ts --fix .",
     "build": "npx tsc",
-    "start": "set NODE_ENV=dev && ts-node src/index.ts",
+    "start": "set NODE_ENV=development && ts-node src/index.ts",
     "dev": "nodemon src/app.ts",
     "test": "jest --coverage",
     "typeorm": "ts-node ./node_modules/.bin/typeorm -f ./src/db/ormconfig.ts",
