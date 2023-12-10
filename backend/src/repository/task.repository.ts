@@ -6,7 +6,8 @@ class TaskRepository {
     private taskRepository: Repository<Task>;
 
     constructor() {
-        this.taskRepository = getRepository(Task, appDataSource.name);
+        this.taskRepository = appDataSource.getRepository(Task);
+        //this.taskRepository = getRepository(Task, appDataSource.name);
     }
 
     async getAllTasks(): Promise<Task[]> {

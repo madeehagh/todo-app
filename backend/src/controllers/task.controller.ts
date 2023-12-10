@@ -29,7 +29,7 @@ export class TaskController {
         const taskId: number = parseInt(req.params.id);
 
         try {
-            const task: Task | undefined = await this.taskService.getTaskById(taskId);
+            const task: Task[] = await this.taskService.getAllTasks();
 
             if (task) {
                 res.status(200).json(task);
@@ -58,7 +58,7 @@ export class TaskController {
     };
 
     // Update a task
-    updateTask = async (req: Request, res: Response) => {
+   /* updateTask = async (req: Request, res: Response) => {
         const taskId: number = parseInt(req.params.id);
         const updatedTask: Task = req.body;
 
@@ -84,7 +84,7 @@ export class TaskController {
         const taskId: number = parseInt(req.params.id);
 
         try {
-            const task: Task | undefined = await this.taskService.getTaskById(taskId);
+            const task: Task | undefined = await this.taskService.deleteTask(taskId);
 
             if (task) {
                 await this.taskService.deleteTask(taskId);
@@ -98,4 +98,4 @@ export class TaskController {
             res.status(500).json({ error: 'Internal Server Error' });
         }
     };
-}
+*/}
