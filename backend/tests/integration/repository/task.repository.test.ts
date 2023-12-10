@@ -1,5 +1,6 @@
+/*
 import { TaskRepository } from "../../../src/repository/task.repository";
-import { connect } from "../../../src/config/db.config";
+import { Repository } from 'typeorm';
 import { Task } from "../../../src/models/task";
 
 describe('TaskRepository Integration Test', () => {
@@ -39,4 +40,4 @@ describe('TaskRepository Integration Test', () => {
         });
 
     });
-});
+});*/

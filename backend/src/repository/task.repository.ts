@@ -1,69 +1,28 @@
-import { APILogger } from '../logger/api.logger';
+import { getRepository, Repository } from 'typeorm';
 import { Task } from '../models/task';
-import { connect } from '../config/db.config';
+import appDataSource from '../db/db.config';
 
-export class TaskRepository {
-    private logger: APILogger;
-    private db: any = {};
-    private taskRepository: any;
+// Create a repository instance using the appDataSource connection
+const taskRepository: Repository<Task> = getRepository(Task, appDataSource.name);
 
-    constructor() {
-        this.logger = new APILogger();
-        this.db = null;
-        this.taskRepository = null;
-        this.initialize().catch((error) => {
-            this.logger.error('Unable to initialize the task repository:', error);
-            throw error;
-        });
-    }
-
-    private async initialize() {
-        try {
-            this.db = await connect();
-            this.taskRepository = this.db?.sequelize?.models.Task; // Update this line
-        } catch (error) {
-            this.logger.error('Error:', error?.message || error);
-            throw error;
-        }
-    }
-
-    private async ensureInitialized() {
-        if (!this.taskRepository) {
-            await this.initialize();
-        }
-    }
-
-    public async createTask(task: Partial<Task>): Promise<any> {
-        await this.ensureInitialized();
-
-        try {
-            await this.taskRepository.create(task);
-        } catch (err) {
-            this.logger.error('Error:', err?.message || err);
-            throw err;
-        }
-        return {
-            message: 'Task created successfully'
-        };
-    }
-
-    async getTasks(): Promise<any> {
-        await this.ensureInitialized();
-
-        try {
-            const tasks = await this.taskRepository.findAll();
-            this.logger.info('tasks retrieved from repo:::', tasks);
-            return { tasks };
-        } catch (err) {
-            this.logger.error('Error:', err?.message || err);
-            return [];
-        }
-    }
-
-    /**
-     * Added this method to access taskRepository in test cases
-     */
-    public getTaskRepository(): any {
-        return this.taskRepository;
+// Get all tasks
+async function getAllTasks(): Promise<Task[]> {
+    try {
+        const tasks: Task[] = await taskRepository.find();
+        return tasks;
+    } catch (error) {
+        throw new Error('Unable to fetch tasks from the database.');
     }
 }
+
+// Save a task
+async function saveTask(task: Task): Promise<Task> {
+    try {
+        const savedTask: Task = await taskRepository.save(task);
+        return savedTask;
+    } catch (error) {
+        throw new Error('Unable to save the task to the database.');
+    }
+}
+
+export { getAllTasks, saveTask };

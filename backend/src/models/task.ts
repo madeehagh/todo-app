@@ -1,48 +1,33 @@
-import { Model, DataTypes, Sequelize } from 'sequelize';
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+@Entity()
+export class Task {
 
-export class Task extends Model {
-    public id!: number;
-    public name!: string;
-    public description!: string;
-    public status!: string;
-    public deadline!: string;
+    @PrimaryGeneratedColumn()
+    id!: number;
+
+    @Column({
+        type: "varchar",
+        nullable: false,
+    })
+    name!: string
+
+    @Column({
+        type: "varchar",
+        nullable: true,
+    })
+    description!: string
+
+    @Column({
+        default: "Active",
+        enum: ['ACTIVE', 'DONE', 'DELETED'],
+        nullable: false,
+    })
+    status!: string
+
+    @Column({
+        type: "datetime",
+        nullable: false,
+    })
+    deadline!: string
+
 }
-
-
-/*async function asyncSaveAndFindTest(): Promise<Task[]> {
-    return await new Task({ name: 'someName' }).save().then(res => Task.findAll());
-}*/
-export const initTaskModel = (sequelize: Sequelize): void => {
-    Task.init(
-        {
-            id: {
-                type: DataTypes.INTEGER,
-                autoIncrement: true,
-                primaryKey: true,
-            },
-            name: {
-                type: DataTypes.STRING,
-                //allowNull: false,
-            },
-            description: {
-                type: DataTypes.STRING,
-                //allowNull: false,
-            },
-            status: {
-                type: DataTypes.STRING,
-                //allowNull: false,
-            },
-            deadline: {
-                type: DataTypes.DATE,
-                //allowNull: false,
-            },
-        },
-        {
-            sequelize,
-            modelName: 'Task',
-            tableName: 'Task',
-        }
-    );
-};
-
-export default Task;

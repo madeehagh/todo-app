@@ -33,4 +33,8 @@ export class APILogger {
         console.error(`Error thrown from file: ${fileName}`);
         console.error(error);
     }
+
+    warn(recordNotFound: string) {
+        console.warn(recordNotFound);
+    }
 }

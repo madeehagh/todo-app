@@ -1,11 +1,11 @@
 import express, { Request, Response, NextFunction } from 'express';
+import bodyParser from "body-parser";
 
 import {APILogger} from "./logger/api.logger";
 import {TaskController} from "./controllers/task.controller";
 import taskRoutes from "./routes/task.routes";
 import 'dotenv/config'
-
-import bodyParser from "body-parser";
+import connection from "./db/db.config";
 
 class App {
     public app: express.Application;
@@ -22,6 +22,7 @@ class App {
         this.registerErrorHandlingMiddleware();
        // this.registerCorsMiddleware();
     }
+
 
     private registerRoutes() {
         this.app.use('/v1/todo', taskRoutes);

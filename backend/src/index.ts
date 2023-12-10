@@ -1,3 +1,4 @@
+import 'reflect-metadata';
 import * as http from "http";
 
 import App from "./app";
