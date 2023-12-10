@@ -1,5 +1,8 @@
 import express, { Request, Response, Router } from 'express';
-import {TaskController} from "../controllers/task.controller";
+
+import { TaskController } from "../controllers/task.controller";
+import { Task } from "../models/task";
+import {plainToClass, plainToInstance} from 'class-transformer';
 
 const router: Router = express.Router();
 const taskController = new TaskController();
@@ -12,10 +15,22 @@ type Route = {
 
 const taskRoutes: Route[] = [
     { method: 'get', path: '/tasks', handler: taskController.getTasks },
-  //  { method: 'get', path: '/tasks/:id', handler: getTaskById },
-    { method: 'post', path: '/tasks', handler: taskController.createTask },
-   // { method: 'put', path: '/tasks/:id', handler: updateTask },
-    //{ method: 'delete', path: '/tasks/:id', handler: deleteTask },
+    {
+        method: 'post', path: '/tasks', handler: (req: Request, res: Response) => {
+            const requestBody = req.body;
+            const task = plainToInstance(Task, requestBody);
+            taskController.createTask(task)
+                .then((createdTask: Task) => {
+                    console.log('routed ', createdTask)
+                    res.status(201).json(createdTask);
+                })
+                .catch(() => {
+                    console.log('routed ', '500')
+
+                    res.status(500).json({ error: 'Internal Server Error' });
+                });
+        }
+    },
 ];
 
 taskRoutes.forEach((route: Route) => {

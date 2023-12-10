@@ -1,55 +1,56 @@
 import express, { Request, Response, NextFunction } from 'express';
+
 import {APILogger} from "./logger/api.logger";
 import {TaskController} from "./controllers/task.controller";
 import taskRoutes from "./routes/task.routes";
 import 'dotenv/config'
 
+import bodyParser from "body-parser";
+
 class App {
-    public express: express.Application;
+    public app: express.Application;
     public logger: APILogger;
     public taskController: TaskController;
 
 
     constructor() {
-        this.express = express();
+        this.app = express();
         this.taskController = new TaskController();
         this.logger = new APILogger();
+        this.registerBodyParsingMiddleware();
         this.registerRoutes();
         this.registerErrorHandlingMiddleware();
-        this.registerBodyParsingMiddleware();
-        this.registerCorsMiddleware();
+       // this.registerCorsMiddleware();
     }
 
     private registerRoutes() {
-        this.express.use('/v1/todo', taskRoutes);
-        // Add more route files if needed
+        this.app.use('/v1/todo', taskRoutes);
     }
 
     private registerErrorHandlingMiddleware() {
-        this.express.use((err: any, req: Request, res: Response, next: NextFunction) => {
-            // Handle the error and send an appropriate response
+        this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
+            this.logger.error(err.message, err); // Log the error for debugging purposes
             res.status(500).json({ error: 'Internal Server Error' });
+            next(err);
         });
     }
 
     //Body parsing middleware
     private registerBodyParsingMiddleware() {
-        this.express.use(express.json());
-        this.express.use(express.urlencoded({ extended: true }));
+        this.app.use(bodyParser.json());
+        this.app.use(bodyParser.urlencoded({ extended: true }));
     }
 
     /**
      * Cors middleware. This allows application to respond to request from different origins
      * @private
      */
-    private registerCorsMiddleware() {
-        this.express.use((req, res, next) => {
-            res.setHeader('Access-Control-Allow-Origin', '*');
-            res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-            res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-            next();
-        });
+    private registerCorsMiddleware(req?: Request, res?: Response, next?: NextFunction) {
+        res?.setHeader('Access-Control-Allow-Origin', '*');
+        res?.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+        res?.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+        next?.();
     }
 }
 
-export default new App().express;
+export default new App().app;

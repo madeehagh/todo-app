@@ -1,4 +1,4 @@
-import winston, { createLogger, format, transports } from 'winston';
+import  { createLogger, format, transports } from 'winston';
 
 // Read the log level from process.env
 const logLevel = process.env.LOG_LEVEL || 'info';
@@ -19,11 +19,18 @@ const logger = createLogger({
 
 export class APILogger {
 
-    info(message: String, data: String) {
+    public info(message: string, data) {
         logger.info(`${message}   ${undefined != data ? JSON.stringify(data) : ''}`);
     }
 
-    error(message: String) {
-        logger.error(message);
+    public error(message: string, error: Error) {
+        const stackTrace = error.stack?.split('\n');
+        const errorLine = stackTrace && stackTrace.length > 1 ? stackTrace[1] : '';
+        const errorLocation = errorLine.match(/\((.*):\d+:\d+\)$/);
+        const fileName = errorLocation ? errorLocation[1] : '';
+
+        console.error(`[ERROR] ${message}`);
+        console.error(`Error thrown from file: ${fileName}`);
+        console.error(error);
     }
 }

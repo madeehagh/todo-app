@@ -1,43 +1,69 @@
-import {APILogger} from '../logger/api.logger';
-import {Task} from '../models/task';
-import {connect} from '../config/db.config';
+import { APILogger } from '../logger/api.logger';
+import { Task } from '../models/task';
+import { connect } from '../config/db.config';
 
 export class TaskRepository {
-    private logger: APILogger
-    private db: any = {}
-    private taskRepository: any
+    private logger: APILogger;
+    private db: any = {};
+    private taskRepository: any;
 
     constructor() {
-        this.db = connect();
-        this.taskRepository = this.db.sequelize.getRepository(Task)
+        this.logger = new APILogger();
+        this.db = null;
+        this.taskRepository = null;
+        this.initialize().catch((error) => {
+            this.logger.error('Unable to initialize the task repository:', error);
+            throw error;
+        });
     }
 
-    async createTask(task) {
-        let data = {}
-        let allTasks = {}
+    private async initialize() {
         try {
-            data = await this.taskRepository.create(task)
-            allTasks = await this.taskRepository.findAll()
-        } catch(err) {
-            this.logger.error('Error::' + err)
+            this.db = await connect();
+            this.taskRepository = this.db?.sequelize?.models.Task; // Update this line
+        } catch (error) {
+            this.logger.error('Error:', error?.message || error);
+            throw error;
+        }
+    }
+
+    private async ensureInitialized() {
+        if (!this.taskRepository) {
+            await this.initialize();
+        }
+    }
+
+    public async createTask(task: Partial<Task>): Promise<any> {
+        await this.ensureInitialized();
+
+        try {
+            await this.taskRepository.create(task);
+        } catch (err) {
+            this.logger.error('Error:', err?.message || err);
             throw err;
         }
         return {
-            message: "Task created successfully",
-            task: data,
-            tasks: allTasks
+            message: 'Task created successfully'
+        };
+    }
+
+    async getTasks(): Promise<any> {
+        await this.ensureInitialized();
+
+        try {
+            const tasks = await this.taskRepository.findAll();
+            this.logger.info('tasks retrieved from repo:::', tasks);
+            return { tasks };
+        } catch (err) {
+            this.logger.error('Error:', err?.message || err);
+            return [];
         }
     }
 
-    async getTasks() {
-
-        try {
-            const tasks = await this.taskRepository.findAll()
-            console.log('tasks:::', tasks)
-            return {tasks}
-        } catch (err) {
-            console.log(err)
-            return []
-        }
+    /**
+     * Added this method to access taskRepository in test cases
+     */
+    public getTaskRepository(): any {
+        return this.taskRepository;
     }
 }
