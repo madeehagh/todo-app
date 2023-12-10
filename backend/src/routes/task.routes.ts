@@ -1,8 +1,7 @@
+import "reflect-metadata";
 import express, { Request, Response, Router } from 'express';
-import { plainToInstance } from 'class-transformer';
 
 import { TaskController } from "../controllers/task.controller";
-import { Task } from "../entities/task";
 
 const router: Router = express.Router();
 const taskController = new TaskController();
@@ -14,21 +13,11 @@ type Route = {
 };
 
 const taskRoutes: Route[] = [
-    { method: 'get', path: '/tasks', handler: taskController.getAllTasks.bind(taskController) }, // Update the handler to use getAllTasks method
-    {
-        method: 'post', path: '/tasks', handler: async (req: Request, res: Response) => {
-            const requestBody = req.body;
-            const task = plainToInstance(Task, requestBody);
-            try {
-                await taskController.createTask(req, res); // Await the createTask method
-                console.log('routed ', task)
-                res.status(201).json(task);
-            } catch (error) {
-                console.log('routed ', '500')
-                res.status(500).json({ error: 'Internal Server Error' });
-            }
-        }
-    },
+    { method: 'get', path: '/tasks', handler: taskController.getAllTasks.bind(taskController) },
+    { method: 'get', path: '/tasks/:id', handler: taskController.getTaskById.bind(taskController) },
+    { method: 'post', path: '/tasks', handler: taskController.createTask.bind(taskController) },
+    { method: 'put', path: '/tasks/:id', handler: taskController.updateTask.bind(taskController) },
+    { method: 'delete', path: '/tasks/:id', handler: taskController.deleteTask.bind(taskController) },
 ];
 
 taskRoutes.forEach((route: Route) => {

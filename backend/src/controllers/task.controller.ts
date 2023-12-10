@@ -1,25 +1,26 @@
 import { Request, Response } from 'express';
-import { Task } from '../entities/task';
+import {PrismaClient, Task} from "@prisma/client";
 import { TaskService } from '../service/TaskService';
 import { APILogger } from '../logger/api.logger';
 import {plainToInstance} from "class-transformer";
 
 export class TaskController {
-    private taskService: TaskService;
     private logger: APILogger;
-
+    private taskClient;
     constructor() {
-        this.taskService = new TaskService();
         this.logger = new APILogger();
+        this.taskClient = new PrismaClient().task;
     }
 
     // Get all tasks
-    getAllTasks = async (req: Request, res: Response) => {
+    getAllTasks = async (req: Request, res: Response): Promise<void> => {
         try {
-            const tasks: Task[] = await this.taskService.getAllTasks();
-            res.status(200).json(tasks);
+            const tasks: Task[] = await this.taskClient.findMany();
+
+            res.status(200).json({ data: tasks });
         } catch (error) {
             this.logger.error('Error while getting all tasks', error);
+            console.log(error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     };
@@ -29,14 +30,8 @@ export class TaskController {
         const taskId: number = parseInt(req.params.id);
 
         try {
-            const task: Task[] = await this.taskService.getAllTasks();
-
-            if (task) {
-                res.status(200).json(task);
-            } else {
-                this.logger.warn('Task not found');
-                res.status(404).json({ error: 'Task not found' });
-            }
+            const task: Task[] = await this.taskClient.findUnique({ where: { id: taskId }});
+            res.status(200).json({ data: task });
         } catch (error) {
             this.logger.error('Error while getting task by ID', error);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -45,12 +40,12 @@ export class TaskController {
 
     // Create a new task
     createTask = async (req: Request, res: Response) => {
-        const requestBody: Task = req.body;
-        const task = plainToInstance(Task, requestBody);
-
+        const task: Task = req.body;
         try {
-            await this.taskService.saveTask(task);
-            res.status(201).json(task);
+            await this.taskClient.create({
+                data: { ...task },
+            });
+            res.status(201).json({data: task});
         } catch (error) {
             this.logger.error('Error while creating a task', error);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -58,21 +53,16 @@ export class TaskController {
     };
 
     // Update a task
-   /* updateTask = async (req: Request, res: Response) => {
+    updateTask = async (req: Request, res: Response) => {
         const taskId: number = parseInt(req.params.id);
         const updatedTask: Task = req.body;
 
         try {
-            const task: Task | undefined = await this.taskService.getTaskById(taskId);
-
-            if (task) {
-                updatedTask.id = taskId;
-                const updatedTaskResult: Task = await this.taskService.updateTask(updatedTask);
-                res.status(200).json(updatedTaskResult);
-            } else {
-                this.logger.warn('Task not found');
-                res.status(404).json({ error: 'Task not found' });
-            }
+            const taskUpdated = await this.taskClient.update({
+                where: { id: taskId },
+                data: { ...updatedTask },
+            });
+            res.status(200).json({ data: taskUpdated });
         } catch (error) {
             this.logger.error('Error while updating a task', error);
             res.status(500).json({ error: 'Internal Server Error' });
@@ -84,18 +74,14 @@ export class TaskController {
         const taskId: number = parseInt(req.params.id);
 
         try {
-            const task: Task | undefined = await this.taskService.deleteTask(taskId);
+            const task: Task | undefined = await this.taskClient.delete(
+            { where: { id: taskId }});
 
-            if (task) {
-                await this.taskService.deleteTask(taskId);
-                res.status(204).end();
-            } else {
-                this.logger.warn('Task not found');
-                res.status(404).json({ error: 'Task not found' });
-            }
+            res.status(200).json({ data: {} });
+
         } catch (error) {
             this.logger.error('Error while deleting a task', error);
             res.status(500).json({ error: 'Internal Server Error' });
         }
     };
-*/}
+}

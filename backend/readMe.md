@@ -22,8 +22,13 @@ To get started with the backend server, follow these steps:
 1. Clone the repository: `git clone <repository-url>`
 2. Navigate to the backend directory: `cd backend`
 3. Install the dependencies: `npm install`
-6. Start the server: `npm start`
-7. The backend server will be running at `http://localhost:3000`.
+4. Install docker on the local setUp and run command `docker-compose up -d`
+    You can change the desired userName and password of db in docker-compose.yml and in .env file
+5. If you run `docker ps`, a container where postgres is running should be displayed
+6. For now, I am creating tables at application startup. To do that run command `npx prisma migrate dev --name init`
+7. Start the server: `npm start`
+8. The backend server will be running at `http://localhost:3000`.
+9. You can use POSTMAN or curl command for APIs mentioned in openAPI 
 
 ## API Endpoints
 

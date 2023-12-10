@@ -5,7 +5,6 @@ import {APILogger} from "./logger/api.logger";
 import {TaskController} from "./controllers/task.controller";
 import taskRoutes from "./routes/task.routes";
 import 'dotenv/config'
-import connection from "./db/db.config";
 
 class App {
     public app: express.Application;
@@ -20,7 +19,7 @@ class App {
         this.registerBodyParsingMiddleware();
         this.registerRoutes();
         this.registerErrorHandlingMiddleware();
-       // this.registerCorsMiddleware();
+        this.registerCorsMiddleware();
     }
 
 

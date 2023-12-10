@@ -18,7 +18,7 @@ describe('TaskRepository', () => {
 
     it('should save a task to the database', async () => {
         // Create a new task object
-        const task: Task = {
+        const task= {
             id: 1,
             name: 'Test Task',
             description: 'This is a test task',
@@ -27,7 +27,7 @@ describe('TaskRepository', () => {
         };
 
         // Save the task to the database
-        const savedTask = await taskRepository.saveTask(task);
+        const savedTask = await taskRepository.saveTask(<Task>task);
 
         // Expect the saved task to have an ID assigned
         expect(savedTask.id).toBeDefined();
