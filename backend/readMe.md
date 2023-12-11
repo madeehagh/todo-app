@@ -1,14 +1,17 @@
 # TODO App Backend
 
-This is the backend server for the TODO application. It is built using Node.js, TypeScript
+This is the backend server for the TODO application, where a user can add, update and mark a task done. 
+It is built using Node.js, TypeScript
 I have used prisma as an ORM tool, which can be integrated with any DB, in my case I am using sql.
 
 ## Assumptions
-Task name should be unique
-Task should not have timeline as past date time
-Used apidoc for generating API doc for each endpoint.
+1. Task name should be unique
+2. Task should not have timeline as past date time
+3. Used api doc for generating API doc for each endpoint.
 
-
+## Improvement
+1. Add reminder to the task
+2. 
 ## Project Structure
 
 The project follows the following structure:
