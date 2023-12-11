@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import { Task } from '@prisma/client';
 import { APILogger } from '../logger/api.logger';
 import { TaskRepository } from '../repository/task.repository';
-import {ErrorMessages} from "../constants/error.messages";
+import { ErrorMessages } from '../constants/error.messages';
 
 export class TaskController {
     private logger: APILogger;
@@ -13,6 +13,13 @@ export class TaskController {
         this.taskRepository = new TaskRepository();
     }
 
+    /**
+     * @api {get} /tasks/ Get all tasks
+     * @apiName GetAllTasks
+     * @apiGroup Task
+     *
+     * @apiSuccess {Task[]} tasks Array of tasks.
+     */
     getAllTasks = async (req: Request, res: Response): Promise<void> => {
         try {
             const tasks: Task[] = await this.taskRepository.getAllTasks();
@@ -23,6 +30,16 @@ export class TaskController {
         }
     };
 
+    /**
+     * @api {get} /tasks/:id Get task by ID
+     * @apiName GetTaskById
+     * @apiGroup Task
+     *
+     * @apiParam {String} id Task ID.
+     *
+     * @apiSuccess {Task} task Task object.
+     * @apiError (404) {String} error Task not found.
+     */
     getTaskById = async (req: Request, res: Response): Promise<void> => {
         const taskId: string = req.params.id;
 
@@ -40,28 +57,46 @@ export class TaskController {
         }
     };
 
+    /**
+     * @api {post} /tasks/ Create a new task
+     * @apiName CreateTask
+     * @apiGroup Task
+     *
+     * @apiBody {Task} task Task object.
+     *
+     * @apiSuccess {Task} newTask Newly created task object.
+     * @apiSuccess {Task[]} allTasks Array of all tasks.
+     */
     createTask = async (req: Request, res: Response): Promise<void> => {
         const task: Task = req.body;
         try {
             const newTaskAdded: Task = await this.taskRepository.createTask(task);
             const allTasks: Task[] = await this.taskRepository.getAllTasks();
 
-            res.status(201).json({ data: { newTask: newTaskAdded, allTask: allTasks }});
+            res.status(201).json({ data: { newTask: newTaskAdded, allTasks: allTasks } });
         } catch (error) {
             this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
             res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });
         }
     };
 
+    /**
+     * @api {put} /tasks/:id Update a task
+     * @apiName UpdateTask
+     * @apiGroup Task
+     *
+     * @apiParam {String} id Task ID.
+     * @apiParam {Task} task Updated task object.
+     *
+     * @apiSuccess {Task} taskUpdated Updated task object.
+     * @apiError (404) {String} error Task not found.
+     */
     updateTask = async (req: Request, res: Response): Promise<void> => {
         const taskId: string = req.params.id;
         const updatedTask: Task = req.body;
 
         try {
-            const taskUpdated: Task | null = await this.taskRepository.updateTask(
-                taskId,
-                updatedTask
-            );
+            const taskUpdated: Task | null = await this.taskRepository.updateTask(taskId, updatedTask);
             if (taskUpdated) {
                 res.status(200).json({ data: taskUpdated });
             } else {
@@ -73,6 +108,16 @@ export class TaskController {
         }
     };
 
+    /**
+     * @api {delete} /tasks/:id Delete a task
+     * @apiName DeleteTask
+     * @apiGroup Task
+     *
+     * @apiParam {String} id Task ID.
+     *
+     * @apiSuccess {Object} data Empty object.
+     * @apiError (500) {String} error Application error message.
+     */
     deleteTask = async (req: Request, res: Response): Promise<void> => {
         const taskId: string = req.params.id;
 
