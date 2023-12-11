@@ -22,7 +22,7 @@ To get started with the backend server, follow these steps:
 1. Clone the repository: `git clone <repository-url>`
 2. Navigate to the backend directory: `cd backend`
 3. Install the dependencies: `npm install`
-4. Install docker on the local setUp and run command `docker-compose up -d`
+4. Install docker on the local setUp and run command `docker-compose up -d` to install postgres
     You can change the desired userName and password of db in docker-compose.yml and in .env file
 5. If you run `docker ps`, a container where postgres is running should be displayed
 6. For now, I am creating tables at application startup. To do that run command `npx prisma migrate dev --name init`
