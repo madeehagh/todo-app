@@ -37,7 +37,7 @@ To get started with the backend server, follow these steps:
 7. Start the server: `npm start`
 8. The backend server will be running at `http://localhost:3000`.
 9. You can use POSTMAN or curl command for APIs mentioned in openAPI 
-10. Generate API by `apidoc -i src/ -o doc/`
+10. Generate API by `apidoc -i src/ -o doc/`, which creates a doc folder with index file with all the apis 
 
 ## API Endpoints
 
