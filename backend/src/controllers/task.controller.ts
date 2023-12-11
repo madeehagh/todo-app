@@ -43,8 +43,10 @@ export class TaskController {
     createTask = async (req: Request, res: Response): Promise<void> => {
         const task: Task = req.body;
         try {
-            const createdTask: Task = await this.taskRepository.createTask(task);
-            res.status(201).json({ data: createdTask });
+            const newTaskAdded: Task = await this.taskRepository.createTask(task);
+            const allTasks: Task[] = await this.taskRepository.getAllTasks();
+
+            res.status(201).json({ data: { newTask: newTaskAdded, allTask: allTasks }});
         } catch (error) {
             this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
             res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });

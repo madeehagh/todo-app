@@ -17,6 +17,7 @@ The project follows the following structure:
 
 ## Assumptions
 Task name should be unique
+Task should not have timeline as past date time
 
 ## Getting Started
 
