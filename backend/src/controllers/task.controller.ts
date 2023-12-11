@@ -24,7 +24,7 @@ export class TaskController {
     };
 
     getTaskById = async (req: Request, res: Response): Promise<void> => {
-        const taskId: number = parseInt(req.params.id);
+        const taskId: string = req.params.id;
 
         try {
             const task: Task | null = await this.taskRepository.getTaskById(taskId);
@@ -54,7 +54,7 @@ export class TaskController {
     };
 
     updateTask = async (req: Request, res: Response): Promise<void> => {
-        const taskId: number = parseInt(req.params.id);
+        const taskId: string = req.params.id;
         const updatedTask: Task = req.body;
 
         try {
@@ -74,7 +74,7 @@ export class TaskController {
     };
 
     deleteTask = async (req: Request, res: Response): Promise<void> => {
-        const taskId: number = parseInt(req.params.id);
+        const taskId: string = req.params.id;
 
         try {
             await this.taskRepository.deleteTask(taskId);

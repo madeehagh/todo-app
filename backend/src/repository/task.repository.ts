@@ -21,7 +21,7 @@ export class TaskRepository {
         }
     }
 
-    async getTaskById(taskId: number): Promise<Task | null> {
+    async getTaskById(taskId: string): Promise<Task | null> {
         try {
             return  await this.taskClient.findUnique({
                 where: { id: taskId },
@@ -43,7 +43,7 @@ export class TaskRepository {
         }
     }
 
-    async updateTask(taskId: number, updatedTask: Task): Promise<Task | null> {
+    async updateTask(taskId: string, updatedTask: Task): Promise<Task | null> {
         try {
             return await this.taskClient.update({
                 where: { id: taskId },
@@ -55,7 +55,7 @@ export class TaskRepository {
         }
     }
 
-    async deleteTask(taskId: number): Promise<void> {
+    async deleteTask(taskId: string): Promise<void> {
         try {
             await this.taskClient.delete({ where: { id: taskId } });
         } catch (error) {
