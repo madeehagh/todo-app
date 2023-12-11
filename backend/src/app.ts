@@ -1,4 +1,4 @@
-import express, { Request, Response, NextFunction } from 'express';
+import express, {Request, Response, NextFunction, Application} from 'express';
 import bodyParser from "body-parser";
 
 import {APILogger} from "./logger/api.logger";
@@ -7,7 +7,7 @@ import taskRoutes from "./routes/task.routes";
 import 'dotenv/config'
 
 class App {
-    public app: express.Application;
+    public app: Application;
     public logger: APILogger;
     public taskController: TaskController;
 
@@ -29,7 +29,7 @@ class App {
 
     private registerErrorHandlingMiddleware() {
         this.app.use((err: any, req: Request, res: Response, next: NextFunction) => {
-            this.logger.error(err.message, err); // Log the error for debugging purposes
+            this.logger.error(err.message, err);
             res.status(500).json({ error: 'Internal Server Error' });
             next(err);
         });

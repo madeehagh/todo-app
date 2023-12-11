@@ -15,5 +15,13 @@ model Task {
   name   String @unique
   isActive Boolean @default(true)
   description String
-  deadline    DateTime
+  dueDate    DateTime
+}
+
+model User {
+  id       String @id @default(uuid())
+  email   String @unique
+  firstName String
+  lastName String
+  createdAt DateTime
 }

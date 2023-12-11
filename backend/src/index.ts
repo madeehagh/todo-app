@@ -1,21 +1,21 @@
 import 'reflect-metadata';
-import * as http from "http";
+import { createServer } from 'http';
 
-import App from "./app";
-import {APILogger} from "./logger/api.logger";
+import App from './app';
+import { APILogger } from './logger/api.logger';
 
 const port = process.env.PORT || 4000;
 
-App.set("port", port);
-const server = http.createServer(App);
+App.set('port', port);
+const server = createServer(App);
 server.listen(port);
 
 const logger = new APILogger();
 
-server.on("listening", function(): void {
+server.on('listening', (): void => {
     const addr = server.address();
-    const bind = (typeof addr === 'string') ? `pipe ${addr}` : `port ${addr.port}`;
+    const bind = typeof addr === 'string' ? `pipe ${addr}` : `port ${addr.port}`;
     logger.info(`Listening on ${bind}`, null);
 });
 
-module.exports = App;
+export = App;

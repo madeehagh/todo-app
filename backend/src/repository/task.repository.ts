@@ -32,7 +32,7 @@ export class TaskRepository {
         }
     }
 
-    async createTask(task: Task): Promise<Task> {
+    async createTask(task:  Omit<Task, "id">): Promise<Task> {
         try {
             return await this.taskClient.create({
                 data: { ...task },
@@ -43,7 +43,7 @@ export class TaskRepository {
         }
     }
 
-    async updateTask(taskId: string, updatedTask: Task): Promise<Task | null> {
+    async updateTask(taskId: string, updatedTask: Partial<Task>): Promise<Task | null> {
         try {
             return await this.taskClient.update({
                 where: { id: taskId },
