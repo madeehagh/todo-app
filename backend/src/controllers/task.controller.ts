@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import { Task } from '@prisma/client';
 import { APILogger } from '../logger/api.logger';
 import { TaskRepository } from '../repository/task.repository';
+import {ErrorMessages} from "../constants/error.messages";
 
 export class TaskController {
     private logger: APILogger;
@@ -17,8 +18,8 @@ export class TaskController {
             const tasks: Task[] = await this.taskRepository.getAllTasks();
             res.status(200).json({ data: tasks });
         } catch (error) {
-            this.logger.error('Error while getting all tasks', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
+            res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });
         }
     };
 
@@ -30,11 +31,12 @@ export class TaskController {
             if (task) {
                 res.status(200).json({ data: task });
             } else {
-                res.status(404).json({ error: 'Task not found' });
+                this.logger.warn(ErrorMessages.RECORD_NOT_FOUND, taskId);
+                res.status(404).json({ error: ErrorMessages.RECORD_NOT_FOUND });
             }
         } catch (error) {
-            this.logger.error('Error while getting task by ID', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
+            res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });
         }
     };
 
@@ -44,8 +46,8 @@ export class TaskController {
             const createdTask: Task = await this.taskRepository.createTask(task);
             res.status(201).json({ data: createdTask });
         } catch (error) {
-            this.logger.error('Error while creating a task', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
+            res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });
         }
     };
 
@@ -64,8 +66,8 @@ export class TaskController {
                 res.status(404).json({ error: 'Task not found' });
             }
         } catch (error) {
-            this.logger.error('Error while updating a task', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
+            res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });
         }
     };
 
@@ -77,7 +79,7 @@ export class TaskController {
             res.status(200).json({ data: {} });
         } catch (error) {
             this.logger.error('Error while deleting a task', error);
-            res.status(500).json({ error: 'Internal Server Error' });
+            res.status(500).json({ error: ErrorMessages.APPLICATION_ERROR });
         }
     };
 }

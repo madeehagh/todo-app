@@ -15,6 +15,9 @@ The project follows the following structure:
 - `package.json`: This file contains the metadata and dependencies for your project.
 - `tsconfig.json`: This file is the TypeScript configuration file. It specifies the compiler options and project settings.
 
+## Assumptions
+Task name should be unique
+
 ## Getting Started
 
 To get started with the backend server, follow these steps:

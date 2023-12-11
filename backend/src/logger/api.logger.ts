@@ -34,7 +34,7 @@ export class APILogger {
         console.error(error);
     }
 
-    warn(recordNotFound: string) {
-        console.warn(recordNotFound);
+    warn(recordNotFound: string, taskId: number) {
+        console.warn(`Record not found: ${recordNotFound}, Task ID: ${taskId}`);
     }
 }
