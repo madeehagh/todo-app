@@ -76,25 +76,22 @@ export class TaskController {
      *
      * @apiError {String} message Error message
      */
-    createTask = [
-        body('name').notEmpty().withMessage('Task name is required'),
-        body('description').optional().isLength({ max: 200 }).withMessage('Description cannot exceed 200 characters'),
-        body('dueDate').optional().isISO8601().toDate().withMessage('Invalid due date format'),
-        // Add more validation rules for other fields if needed
-        this.validateInput,
-        async (req: Request, res: Response): Promise<void> => {
-            const task: Task = req.body as Task;
-
-            try {
-                const newTaskAdded: Task = await this.taskRepository.createTask(task);
-                const allTasks: Task[] = await this.taskRepository.getAllTasks();
-                const apiResponse = new ApiResponse(res);
-                apiResponse.success({ newTask: newTaskAdded, allTasks: allTasks });
-            } catch (error: any) {
-                this.handleError(res, error);
+    async createTask(req: Request, res: Response): Promise<void> {
+        try {
+            const errors = validationResult(req);
+            if (!errors.isEmpty()) {
+                res.status(400).json({ error: 'Validation Error', errors: errors.array() });
+                return;
             }
-        },
-    ];
+            const task: Task = req.body as Task;
+            const newTaskAdded: Task = await this.taskRepository.createTask(task);
+            const allTasks: Task[] = await this.taskRepository.getAllTasks();
+            const apiResponse = new ApiResponse(res);
+            apiResponse.success({ newTask: newTaskAdded, allTasks: allTasks });
+        } catch (error: any) {
+            this.handleError(res, error);
+        }
+    }
 
     /**
      * @api {put} /tasks/:id Update a task

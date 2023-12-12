@@ -32,7 +32,7 @@ export class TaskRepository {
         }
     }
 
-    async createTask(task:  Omit<Task, "id">): Promise<Task> {
+    async createTask(task:  Omit<Task, "id" | "userId">): Promise<Task> {
         try {
             return await this.taskClient.create({
                 data: { ...task },

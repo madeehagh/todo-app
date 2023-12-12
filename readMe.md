@@ -11,9 +11,9 @@ The application covers following functionalities.
 ### Backend
     1. Typescript
     2. Express
-    3. Prisma(ORM)
-    4. Postgres(SQL)
-    5. Jest (for test cases)
+    3. ORM: Prisma
+    4. SQL: Postgres
+    5. Jest 
 ### Frontend
     1. React
     2. Axios

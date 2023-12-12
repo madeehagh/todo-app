@@ -1,7 +1,7 @@
 import {PrismaClient, Task} from '@prisma/client';
 import {TaskRepository} from '../../../src/repository/task.repository';
 import {ErrorMessages} from "../../../src/constants/error.messages";
-import {taskData} from "../../helper/TestInput";
+import {taskRequestData, taskResponseData} from "../../helper/TestInput";
 
 // Mock the PrismaClient
 jest.mock('@prisma/client', () => {
@@ -37,13 +37,13 @@ describe('TaskRepository', () => {
 
     describe('createTask', () => {
         it('should create a task and return the created task', async () => {
-            jest.spyOn(prismaClient.task, 'create').mockResolvedValue(taskData);
+            jest.spyOn(prismaClient.task, 'create').mockResolvedValue(taskResponseData);
 
-            const createdTask = await taskRepository.createTask(taskData);
+            const createdTask = await taskRepository.createTask(taskRequestData);
 
-            expect(createdTask).toEqual(taskData);
+            expect(createdTask).toEqual(taskRequestData);
             expect(prismaClient.task.create).toHaveBeenCalledTimes(1);
-            expect(prismaClient.task.create).toHaveBeenCalledWith({data: taskData});
+            expect(prismaClient.task.create).toHaveBeenCalledWith({data: taskRequestData});
         });
 
         it('should throw an error if creating a task fails', async () => {
@@ -51,23 +51,23 @@ describe('TaskRepository', () => {
 
             jest.spyOn(prismaClient.task, 'create').mockRejectedValue(new Error(errorMessage));
 
-            await expect(taskRepository.createTask(taskData)).rejects.toThrowError(errorMessage);
+            await expect(taskRepository.createTask(taskRequestData)).rejects.toThrowError(errorMessage);
             expect(prismaClient.task.create).toHaveBeenCalledTimes(1);
-            expect(prismaClient.task.create).toHaveBeenCalledWith({data: taskData});
+            expect(prismaClient.task.create).toHaveBeenCalledWith({data: taskRequestData});
         });
     });
 
     describe('updateTask', () => {
         it('should update a task and return the updated task', async () => {
-            jest.spyOn(prismaClient.task, 'update').mockResolvedValue(taskData);
+            jest.spyOn(prismaClient.task, 'update').mockResolvedValue(taskResponseData);
 
-            const updatedTask = await taskRepository.updateTask(taskData["id"], taskData);
+            const updatedTask = await taskRepository.updateTask(taskRequestData["id"], taskRequestData);
 
-            expect(updatedTask).toEqual(taskData);
+            expect(updatedTask).toEqual(taskRequestData);
             expect(prismaClient.task.update).toHaveBeenCalledTimes(1);
             expect(prismaClient.task.update).toHaveBeenCalledWith({
-                where: {id: taskData["id"]},
-                data: taskData,
+                where: {id: taskRequestData["id"]},
+                data: taskRequestData,
             });
         });
 
@@ -76,34 +76,34 @@ describe('TaskRepository', () => {
 
             jest.spyOn(prismaClient.task, 'update').mockRejectedValue(new Error(errorMessage));
 
-            await expect(taskRepository.updateTask(taskData["id"], taskData)).rejects.toThrowError(errorMessage);
+            await expect(taskRepository.updateTask(taskRequestData["id"], taskRequestData)).rejects.toThrowError(errorMessage);
             expect(prismaClient.task.update).toHaveBeenCalledTimes(1);
             expect(prismaClient.task.update).toHaveBeenCalledWith({
-                where: {id: taskData["id"]},
-                data: taskData,
+                where: {id: taskRequestData["id"]},
+                data: taskRequestData,
             });
         });
     });
 
     describe('getTaskById', () => {
         it('should return a task by ID', async () => {
-            jest.spyOn(prismaClient.task, 'findUnique').mockResolvedValue(taskData);
+            jest.spyOn(prismaClient.task, 'findUnique').mockResolvedValue(taskResponseData);
 
-            const task = await taskRepository.getTaskById(taskData["id"]);
+            const task = await taskRepository.getTaskById(taskRequestData["id"]);
 
-            expect(task).toEqual(taskData);
+            expect(task).toEqual(taskRequestData);
             expect(prismaClient.task.findUnique).toHaveBeenCalledTimes(1);
-            expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskData["id"]}});
+            expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskRequestData["id"]}});
         });
 
         it('should return null if task with ID does not exist', async () => {
             jest.spyOn(prismaClient.task, 'findUnique').mockResolvedValue(null);
 
-            const task = await taskRepository.getTaskById(taskData["id"]);
+            const task = await taskRepository.getTaskById(taskRequestData["id"]);
 
             expect(task).toBeNull();
             expect(prismaClient.task.findUnique).toHaveBeenCalledTimes(1);
-            expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskData["id"]}});
+            expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskRequestData["id"]}});
         });
 
         it('should throw an error if fetching a task by ID fails', async () => {
@@ -111,9 +111,9 @@ describe('TaskRepository', () => {
 
             jest.spyOn(prismaClient.task, 'findUnique').mockRejectedValue(new Error(errorMessage));
 
-            await expect(taskRepository.getTaskById(taskData["id"])).rejects.toThrowError(errorMessage);
+            await expect(taskRepository.getTaskById(taskRequestData["id"])).rejects.toThrowError(errorMessage);
             expect(prismaClient.task.findUnique).toHaveBeenCalledTimes(1);
-            expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskData["id"]}});
+            expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskRequestData["id"]}});
         });
     });
 
@@ -124,7 +124,8 @@ describe('TaskRepository', () => {
                 name: 'Task 1',
                 isActive: true,
                 description: 'Sample task 1',
-                deadline: new Date(),
+                dueDate: new Date(),
+                userId: ''
             };
 
             jest.spyOn(prismaClient.task, 'delete').mockResolvedValue(taskData);

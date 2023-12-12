@@ -1,6 +1,6 @@
 import {PrismaClient, Task} from '@prisma/client';
 import {TaskRepository} from '../../../src/repository/task.repository';
-import {taskData} from "../../helper/TestInput";
+import {generateUniqueName, taskRequestData} from "../../helper/TestInput";
 
 const prismaClient = new PrismaClient();
 const taskRepository = new TaskRepository();
@@ -20,11 +20,10 @@ describe('TaskRepository Integration Test', () => {
 
     describe('getAllTasks', () => {
         it('should return all tasks', async () => {
-            const task1: Task = {
-                id: '1', name: 'Task 1', isActive: true, description: 'Sample task 1', deadline: new Date(),
-            };
-            const task2: Task = {
-                id: '2', name: 'Task 2', isActive: true, description: 'Sample task 2', deadline: new Date(),
+            const task1: Omit<Task, 'id' | 'userId'> = taskRequestData;
+            const task2: Omit<Task, 'id' | 'userId'> = {
+                ...taskRequestData,
+                name: generateUniqueName(5),
             };
             await prismaClient.task.createMany({data: [task1, task2]});
 
@@ -36,7 +35,7 @@ describe('TaskRepository Integration Test', () => {
 
     describe('createTask', () => {
         it('should create a task and return the created task', async () => {
-            const createdTask = await taskRepository.createTask(taskData);
+            const createdTask = await taskRepository.createTask(taskRequestData);
 
             const retrievedTask = await prismaClient.task.findUnique({where: {id: createdTask.id}});
 
@@ -46,18 +45,9 @@ describe('TaskRepository Integration Test', () => {
 
     describe('updateTask', () => {
         it('should update a task and return the updated task', async () => {
-            await prismaClient.task.create({data: taskData});
-
-            const updatedTaskData: Task = {
-                id: '1',
-                name: 'Updated Task',
-                isActive: false,
-                description: 'Updated task description',
-                deadline: new Date(),
-            };
-
-            const updatedTask = await taskRepository.updateTask(taskData.id, updatedTaskData);
-
+            const taskRequest = taskRequestData;
+            const createdTask = await prismaClient.task.create({data: taskRequest});
+            const updatedTask = await taskRepository.updateTask(createdTask["id"], createdTask);
             const retrievedTask = await prismaClient.task.findUnique({where: {id: updatedTask.id}});
 
             expect(retrievedTask).toEqual(updatedTask);
@@ -66,11 +56,12 @@ describe('TaskRepository Integration Test', () => {
 
     describe('deleteTask', () => {
         it('should delete a task', async () => {
-            await prismaClient.task.create({data: taskData});
+            const taskRequest = taskRequestData;
+            taskRequest["id"] = "fb84a843-7fea-48aa-b526-bb1f981d1886";
 
-            await taskRepository.deleteTask(taskData.id);
-
-            const retrievedTask = await prismaClient.task.findUnique({where: {id: taskData.id}});
+            await prismaClient.task.create({data: taskRequestData});
+            await taskRepository.deleteTask(taskRequest["id"]);
+            const retrievedTask = await prismaClient.task.findUnique({where: {id: taskRequest["id"]}});
 
             expect(retrievedTask).toBeNull();
         });
@@ -78,12 +69,13 @@ describe('TaskRepository Integration Test', () => {
 
     describe('getTaskById', () => {
         it('should return a task by ID', async () => {
+            const taskRequest = taskRequestData;
 
-            await prismaClient.task.create({data: taskData});
+            const taskCreated = await prismaClient.task.create({data: taskRequest});
 
-            const retrievedTask = await taskRepository.getTaskById(taskData.id);
+            const retrievedTask = await taskRepository.getTaskById(taskCreated["id"]);
 
-            expect(retrievedTask).toEqual(taskData);
+            expect(retrievedTask).toEqual(taskCreated);
         });
 
         it('should return null if task with ID does not exist', async () => {
