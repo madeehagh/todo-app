@@ -20,3 +20,6 @@ dist/
 
 # Ignore Windows specific files
 Thumbs.db
+
+# Ignore coverage folder
+coverage/
