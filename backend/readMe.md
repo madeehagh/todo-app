@@ -11,7 +11,10 @@ I have used prisma as an ORM tool, which can be integrated with any DB, in my ca
 
 ## Improvement
 1. Add reminder to the task
-2. 
+2. For now, I am expecting api-key in the header and checking the value for authorisation. UserId passed in task endpoints is used for authorisation
+I would rather move to jwt for authentication and authorisation.
+3. Add more validations on the request body and param in the request
+
 ## Project Structure
 
 The project follows the following structure:

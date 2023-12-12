@@ -1,6 +1,6 @@
 # Getting Started with Create React App
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app). and has basic functionality and rendering of the task-app.
 
 ## SetUp
 Configure API_KEY and TODO_APP_BACKEND_URL in your .env file.

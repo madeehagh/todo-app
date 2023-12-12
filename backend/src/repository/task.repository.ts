@@ -6,10 +6,12 @@ import {ErrorMessages} from "../constants/error.messages";
 export class TaskRepository {
     private logger: APILogger;
     private taskClient;
+    private userClient;
 
     constructor() {
         this.logger = new APILogger();
         this.taskClient = new PrismaClient().task;
+        this.userClient = new PrismaClient().user
     }
 
     async getAllTasks(): Promise<Task[]> {
