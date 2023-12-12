@@ -2,6 +2,9 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## SetUp
+Configure API_KEY and TODO_APP_BACKEND_URL in your .env file.
+
 ## Available Scripts
 
 In the project directory, you can run:

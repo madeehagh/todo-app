@@ -75,10 +75,3 @@ export const responseTaskData = async () => {
         },
     };
 };
-
-export const ErrorResponse = async () => {
-    return {
-        status: 500,
-        body: { error: ErrorMessages.APPLICATION_ERROR },
-    };
-};
