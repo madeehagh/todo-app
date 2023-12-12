@@ -1,5 +1,6 @@
 import express, {Request, Response, NextFunction, Application} from 'express';
 import bodyParser from "body-parser";
+import cors from 'cors';
 
 import {APILogger} from "./logger/api.logger";
 import {TaskController} from "./controllers/task.controller";
@@ -16,10 +17,10 @@ class App {
         this.app = express();
         this.taskController = new TaskController();
         this.logger = new APILogger();
+        this.app.use(cors());
         this.registerBodyParsingMiddleware();
         this.registerRoutes();
         this.registerErrorHandlingMiddleware();
-        this.registerCorsMiddleware();
     }
 
 
@@ -39,17 +40,6 @@ class App {
     private registerBodyParsingMiddleware() {
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
-    }
-
-    /**
-     * Cors middleware. This allows application to respond to request from different origins
-     * @private
-     */
-    private registerCorsMiddleware(req?: Request, res?: Response, next?: NextFunction) {
-        res?.setHeader('Access-Control-Allow-Origin', '*');
-        res?.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
-        res?.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
-        next?.();
     }
 }
 
