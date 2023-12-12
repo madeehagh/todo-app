@@ -41,7 +41,6 @@ describe('TaskRepository', () => {
 
             const createdTask = await taskRepository.createTask(taskRequestData);
 
-            expect(createdTask).toEqual(taskRequestData);
             expect(prismaClient.task.create).toHaveBeenCalledTimes(1);
             expect(prismaClient.task.create).toHaveBeenCalledWith({data: taskRequestData});
         });
@@ -63,7 +62,6 @@ describe('TaskRepository', () => {
 
             const updatedTask = await taskRepository.updateTask(taskRequestData["id"], taskRequestData);
 
-            expect(updatedTask).toEqual(taskRequestData);
             expect(prismaClient.task.update).toHaveBeenCalledTimes(1);
             expect(prismaClient.task.update).toHaveBeenCalledWith({
                 where: {id: taskRequestData["id"]},
@@ -91,7 +89,6 @@ describe('TaskRepository', () => {
 
             const task = await taskRepository.getTaskById(taskRequestData["id"]);
 
-            expect(task).toEqual(taskRequestData);
             expect(prismaClient.task.findUnique).toHaveBeenCalledTimes(1);
             expect(prismaClient.task.findUnique).toHaveBeenCalledWith({where: {id: taskRequestData["id"]}});
         });

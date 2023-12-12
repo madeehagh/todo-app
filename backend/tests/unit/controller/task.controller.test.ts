@@ -3,6 +3,7 @@ import { TaskController } from '../../../src/controllers/task.controller';
 import { TaskRepository } from '../../../src/repository/task.repository';
 import { ErrorMessages } from '../../../src/constants/error.messages';
 import { taskRequestData, taskResponseData } from "../../helper/TestInput";
+import {DatabaseError} from "../../../src/error/database.error";
 
 describe('TaskController', () => {
     let taskController: TaskController;
@@ -36,7 +37,7 @@ describe('TaskController', () => {
 
         it('should handle errors and return 500 status', async () => {
             const errorMessage = ErrorMessages.APPLICATION_ERROR;
-            jest.spyOn(taskRepository, 'createTask').mockRejectedValue(new Error(errorMessage));
+            jest.spyOn(taskRepository, 'createTask').mockRejectedValue(new DatabaseError(errorMessage));
             req.body = taskRequestData;
 
             await taskController.createTask(req, res);

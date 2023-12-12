@@ -1,5 +1,5 @@
 import {APILogger} from "../logger/api.logger";
-import {PrismaClient, Task, User} from "@prisma/client";
+import {PrismaClient, User} from "@prisma/client";
 import {ErrorMessages} from "../constants/error.messages";
 import {DatabaseError} from "../error/database.error";
 

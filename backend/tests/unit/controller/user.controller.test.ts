@@ -3,6 +3,7 @@ import { UserController } from '../../../src/controllers/user.controller';
 import { UserRepository } from '../../../src/repository/user.repository';
 import { ErrorMessages } from '../../../src/constants/error.messages';
 import {userRequestData, userResponseData} from "../../helper/TestInput";
+import {DatabaseError} from "../../../src/error/database.error";
 
 describe('TaskController', () => {
     let userController: UserController;
@@ -37,7 +38,7 @@ describe('TaskController', () => {
 
         it('should handle errors and return 500 status', async () => {
             const errorMessage = ErrorMessages.APPLICATION_ERROR;
-            jest.spyOn(userRepository, 'createUser').mockRejectedValue(new Error(errorMessage));
+            jest.spyOn(userRepository, 'createUser').mockRejectedValue(new DatabaseError(errorMessage));
             req.body = userRequestData;
 
             await userController.createUser(req, res);

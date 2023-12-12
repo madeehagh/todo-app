@@ -6,6 +6,7 @@ import {APILogger} from "./logger/api.logger";
 import {TaskController} from "./controllers/task.controller";
 import taskRoutes from "./routes/task.routes";
 import 'dotenv/config'
+import userRoutes from "./routes/user.routes";
 
 class App {
     public app: Application;
@@ -26,6 +27,7 @@ class App {
 
     private registerRoutes() {
         this.app.use('/v1/todo', taskRoutes);
+        this.app.use('/v1/user', userRoutes);
     }
 
     private registerErrorHandlingMiddleware() {

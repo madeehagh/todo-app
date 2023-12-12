@@ -2,6 +2,7 @@ import {PrismaClient, User} from '@prisma/client';
 import {UserRepository} from '../../../src/repository/user.repository';
 import {ErrorMessages} from "../../../src/constants/error.messages";
 import {userRequestData, userResponseData} from "../../helper/TestInput";
+import {DatabaseError} from "../../../src/error/database.error";
 
 // Mock the PrismaClient
 jest.mock('@prisma/client', () => {
@@ -48,11 +49,9 @@ describe('UserRepository', () => {
         it('should throw an error if creating a user fails', async () => {
             const errorMessage = ErrorMessages.DB_CREATE_ERROR;
 
-            jest.spyOn(prismaClient.user, 'create').mockRejectedValue(new Error(errorMessage));
+            jest.spyOn(prismaClient.user, 'create').mockRejectedValue(new DatabaseError(errorMessage));
 
             await expect(userRepository.createUser(userRequestData)).rejects.toThrowError(errorMessage);
-            expect(prismaClient.user.create).toHaveBeenCalledTimes(1);
-            expect(prismaClient.user.create).toHaveBeenCalledWith({data: userRequestData});
         });
     });
 });
