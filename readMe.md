@@ -1,35 +1,34 @@
 # Todo App
 
-This is a TypeScript project that utilizes Express.js for building a todo list web server.
+This is a TypeScript project that utilizes Express.js and SQL for building a todo list web server.
+The application covers following functionalities.
+1. A user is able to add new task(s)
+2. A user is able to retrieve all the tasks created by him/her
+3. A user is able to mark the task(s) as completed
+4. A user is able to delete a particular task
 
-## Project Structure
-
-The project follows the following structure:
-
-- `src`: This is the root directory for your TypeScript source code.
-    - `controllers`: This directory contains the controller classes that handle the business logic for different routes or resources.
-    - `models`: This directory contains the model classes that represent the data structures used in your application.
-    - `routes`: This directory contains the route files that define the API routes and their corresponding controller methods.
-    - `app.ts`: This file is the entry point of your application. It sets up the Express.js server, registers the routes, and starts the server.
-- `package.json`: This file contains the metadata and dependencies for your project.
-- `tsconfig.json`: This file is the TypeScript configuration file. It specifies the compiler options and project settings.
+## Plugins and Technologies Used
+### Backend
+    1. Typescript
+    2. Express
+    3. Prisma(ORM)
+    4. Postgres(SQL)
+    5. Jest (for test cases)
+### Frontend
+    1. React
+    2. Axios
+    3. Jest
 
 ## Getting Started
 
 To get started with the project, follow these steps:
 
 1. Clone the repository: `git clone <repository-url>`
-2. Install the dependencies: `npm install`
-3. Compile the TypeScript code: `npx tsc`
-4. Start the server: `node dist/app.js`
-5. Open your browser and visit `http://localhost:3000` to see the application in action.
+2. Run `nvm use` to install node version mentioned in .nvmrc, `nvm install` if the version is not installed on your system
+3. Install the dependencies: `npm install`
+4. Steps to set up backend is mentioned in [backend/readMe.md](backend/readMe.md)
+5. Steps to set up frontend is mentioned in [frontend/README.md](frontend/README.md)
 
-## Available Scripts
+Make sure to set up the backend before setting up the frontend to ensure proper functionality.
 
-In the project directory, you can run the following scripts:
-
-- `npm start`: Starts the server in production mode.
-- `npm run dev`: Starts the server in development mode with nodemon for automatic restart on file changes.
-- `npm run build`: Compiles the TypeScript code.
-- `npm test`: Runs the tests for the project.
-
+Feel free to explore the individual `readMe.md` files in the `backend` and `frontend` directories for more detailed instructions.
