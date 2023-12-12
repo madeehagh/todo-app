@@ -41,6 +41,7 @@ To get started with the backend server, follow these steps:
 8. The backend server will be running at `http://localhost:3000`.
 9. You can use POSTMAN or curl command for APIs mentioned in openAPI 
 10. Generate API by `apidoc -i src/ -o doc/`, which creates a doc folder with index file with all the apis 
+11. If you want seed users for testing, run `npm seed:user` and for task `npm seed:task`
 
 ## API Endpoints
 
@@ -51,3 +52,5 @@ Please note that all task endpoints require authentication. Make sure to include
 ## Testing
 
 To run the tests for the backend server, use the following command:
+`npm test`
+Make sure seed user is generated before running this. Also, you can conveniently get user and task details on UI http://localhost:5555/ . You need to run `npm prisma-ui` before accessing UI

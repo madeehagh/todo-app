@@ -7,6 +7,10 @@ The application covers following functionalities.
 3. A user is able to mark the task(s) as completed
 4. A user is able to delete a particular task
 
+## Assumptions
+1. Before creating a task, a user needs to register via the signUp endpoint.
+2. Users can only view the tasks they have created.
+
 ## Plugins and Technologies Used
 ### Backend
     1. Typescript

@@ -1,0 +1,30 @@
+{
+  "name": "Todo App API",
+  "version": "1.0.0",
+  "description": "API documentation for the Todo App",
+  "title": "Todo App API",
+  "url": "http://localhost:3000",
+  "sampleUrl": "http://localhost:3000",
+  "header": {
+    "title": "Todo App API",
+    "content": "<p>This is the API documentation for the Todo App.</p>"
+  },
+  "footer": {
+    "title": "Todo App API",
+    "content": "<p>© 2022 Todo App. All rights reserved.</p>"
+  },
+  "template": {
+    "withCompare": true,
+    "withGenerator": true
+  },
+  "excludeFilters": [
+    "node_modules/"
+  ],
+  "apidoc": {
+    "baseurl": "/v1"
+  },
+  "files": [
+    "src/controllers/user.controller.ts",
+    "src/controllers/task.controller.ts"
+  ]
+}

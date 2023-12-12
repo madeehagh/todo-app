@@ -25,6 +25,8 @@ export class TaskController {
      * @apiGroup Task
      *
      * @apiSuccess {Object[]} tasks List of tasks
+     * @apiExample {curl} Example usage:
+     *     curl -X GET -H "Content-Type: application/json"  http://localhost:4000/v1/todo/tasks
      */
     getAllTasks = async (req: Request, res: Response): Promise<void> => {
         try {
@@ -46,6 +48,8 @@ export class TaskController {
      * @apiSuccess {Object} task Task object
      *
      * @apiError {String} message Error message
+     * @apiExample {curl} Example usage:
+     * curl -X GET -H "Content-Type: application/json"  http://localhost:4000/v1/todo/tasks/`some-task-id`
      */
     getTaskById = async (req: Request, res: Response): Promise<void> => {
         const { id } = req.params as { id: string };

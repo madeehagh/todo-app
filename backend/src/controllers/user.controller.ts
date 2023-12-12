@@ -15,9 +15,16 @@ export class UserController {
     }
 
     /**
-     * This method register user
-     * @param req
-     * @param res
+     * @api {post} /user Create User
+     * @apiName CreateUser
+     * @apiGroup User
+     *
+     * @apiBody {Object} user User object.
+     * @apiSuccess {Object} user Created user object.
+     * @apiError (Error 500) InternalServerError An error occurred while creating the user.
+     *
+     * @apiExample {curl} Example usage:
+     *     curl -X POST -H "Content-Type: application/json" -d '{"lastName": "Doe", "firstName": "John", "email": "john@example.com"}' http://localhost:3000/v1/user/signup
      */
     createUser = async (req: Request, res: Response): Promise<void> => {
         //TODO: add validation on request
