@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from "axios";
 
 const API_URL = 'http://0.0.0.0:4000';
 
 const App = () => {
-    const [responseData, setResponseData] = useState(null); // Add state to store the response data
+    const [tasks, setTasks] = useState([]); // Add state to store the tasks
 
     const getTasks = () => {
-        return axios.get(`${API_URL}/v1/todo/tasks`);
+        return axios.get(`${API_URL}/v1/todo/tasks`)
+            .then(response => {
+                setTasks(response.data.data); // Set the tasks in state
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
 
     const addTask = (formData) => {
         return axios.post(`${API_URL}/v1/todo/tasks`, formData)
             .then(response => {
-                setResponseData(response.data); // Set the response data in state
+                setTasks([...tasks, response.data]); // Add the new task to the tasks array in state
             })
             .catch(error => {
                 console.error(error);
@@ -51,6 +57,10 @@ const App = () => {
         setDescription('');
         setDueDate('');
     };
+
+    useEffect(() => {
+        getTasks();
+    }, []);
 
     return (
         <div className="app-container">
@@ -95,6 +105,18 @@ const App = () => {
                     </div>
                     <button type="submit">Submit</button>
                 </form>
+
+                {tasks.length > 0 && (
+                    <div className="list-container">
+                        {tasks.map(task => (
+                            <div key={task.id} className="list-item">
+                                <h3>{task.name}</h3>
+                                <p>{task.description}</p>
+                                <p>Due Date: {task.dueDate}</p>
+                            </div>
+                        ))}
+                    </div>
+                )}
             </div>
         </div>
     );
