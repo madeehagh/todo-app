@@ -13,7 +13,7 @@ type Route = {
 const taskRoutes: Route[] = [
     { method: 'get', path: '/tasks', handler: taskController.getAllTasks },
     { method: 'get', path: '/tasks/:id', handler: taskController.getTaskById },
-    { method: 'post', path: '/tasks', handler: taskController.createTask as unknown as (req: Request, res: Response) => Promise<void> },
+    { method: 'post', path: '/tasks', handler: taskController.createTask },
     { method: 'put', path: '/tasks/:id', handler: taskController.updateTask },
     { method: 'delete', path: '/tasks/:id', handler: taskController.deleteTask },
 ];

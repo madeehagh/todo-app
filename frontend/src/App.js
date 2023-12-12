@@ -1,9 +1,12 @@
 import React, { useState, useEffect } from 'react';
+//import dotenv from 'dotenv';
 import './App.css';
 import axios from "axios";
 
-const API_URL = 'http://0.0.0.0:4000';
-const apiKey = process.env.API_KEY;
+//dotenv.config();
+
+const API_URL = process.env.REACT_APP_APIURL;
+const apiKey = process.env.REACT_APP_APIKEY;
 
 // Create an Axios instance with default headers
 const axiosInstance = axios.create({
@@ -17,32 +20,40 @@ const axiosInstance = axios.create({
 const App = () => {
     const [tasks, setTasks] = useState([]);
 
-    const getTasks = () => {
-        return axiosInstance.get(`${API_URL}/v1/todo/tasks`)
-            .then(response => {
-                setTasks(response.data.data); // Set the tasks in state
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    const getTasks = async () => {
+        try {
+            const response = await axiosInstance.get('/v1/todo/tasks');
+            setTasks(response.data.data);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const addTask = (formData) => {
-        return axiosInstance.post(`${API_URL}/v1/todo/tasks`, formData)
-            .then(response => {
-                setTasks([...tasks, response.data]); // Add the new task to the tasks array in state
-            })
-            .catch(error => {
-                console.error(error);
-            });
+    const addTask = async (formData) => {
+        try {
+            const response = await axiosInstance.post('/v1/todo/tasks', formData);
+            setTasks([...tasks, response.data]);
+        } catch (error) {
+            console.error(error);
+        }
     };
 
-    const updateTask = (todo) => {
-        return axiosInstance.put(`${API_URL}/v1/todo/tasks/${todo.id}`, todo);
+    const updateTask = async (updateTask) => {
+        try {
+            const response = await axiosInstance.get(`/v1/todo/tasks/${updateTask.id}`, updateTask);
+            setTasks(response.data.data);
+        } catch (errorr) {
+            console.log(errorr)
+        }
     };
 
-    const deleteTask = (id) => {
-        return axiosInstance.delete(`${API_URL}/v1/todo/tasks/${id}`);
+    const deleteTask = async (id) => {
+        try {
+            const response = await axiosInstance.get(`/v1/todo/tasks/${id}`);
+            setTasks(response.data.data);
+        } catch (errorr) {
+            console.log(errorr)
+        }
     };
 
     const [name, setName] = useState('');
@@ -58,7 +69,7 @@ const App = () => {
         const formData = {
             name: name,
             description: description,
-            dueDate: dueDate
+            dueDate: new Date(dueDate)
         };
         addTask(formData);
 

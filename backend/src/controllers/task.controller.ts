@@ -80,22 +80,18 @@ export class TaskController {
      *
      * @apiError {String} message Error message
      */
-    async createTask(req: Request, res: Response): Promise<void> {
+    createTask = async (req: Request, res: Response): Promise<void> => {
+        const task: Task = req.body;
+        const apiResponse = new ApiResponse(res);
+
         try {
-            const errors = validationResult(req);
-            if (!errors.isEmpty()) {
-                res.status(400).json({ error: 'Validation Error', errors: errors.array() });
-                return;
-            }
-            const task: Task = req.body as Task;
             const newTaskAdded: Task = await this.taskRepository.createTask(task);
             const allTasks: Task[] = await this.taskRepository.getAllTasks();
-            const apiResponse = new ApiResponse(res);
             apiResponse.success({ newTask: newTaskAdded, allTasks: allTasks });
-        } catch (error: any) {
+        } catch (error) {
             this.handleError(res, error);
         }
-    }
+    };
 
     /**
      * @api {put} /tasks/:id Update a task
