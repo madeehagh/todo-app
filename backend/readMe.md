@@ -32,6 +32,8 @@ The project follows the following structure:
 ## Getting Started
 
 To get started with the backend server, follow these steps:
+Before starting make sure API_KEY and DATABASE_URL='postgresql://root:root@localhost:5432/tasks-db?schema=task'
+
 
 1. Clone the repository: `git clone <repository-url>`
 2. Navigate to the backend directory: `cd backend`
@@ -41,7 +43,7 @@ To get started with the backend server, follow these steps:
 5. If you run `docker ps`, a container where postgres is running should be displayed
 6. For now, I am creating tables at application startup. To do that run command `npx prisma migrate dev --name init`
 7. Start the server: `npm start`
-8. The backend server will be running at `http://localhost:3000`.
+8. The backend server will be running at `http://localhost:4000`.
 9. You can use POSTMAN or curl command for APIs mentioned in openAPI 
 10. Generate API by `apidoc -i src/ -o doc/`, which creates a doc folder with index file with all the apis 
 11. If you want seed users for testing, run `npm seed:user` and for task `npm seed:task`

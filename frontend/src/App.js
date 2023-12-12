@@ -2,12 +2,12 @@ import React, { useState, useEffect } from 'react';
 import './App.css';
 import axios from "axios";
 
-const BACKEND_URL = process.env.TODO_APP_BACKEND_URL;
+const API_URL = 'http://0.0.0.0:4000';
 const apiKey = process.env.API_KEY;
 
 // Create an Axios instance with default headers
 const axiosInstance = axios.create({
-    baseURL: BACKEND_URL,
+    baseURL: API_URL,
     headers: {
         'x-api-key': apiKey,
         'Content-Type': 'application/json'
@@ -18,9 +18,9 @@ const App = () => {
     const [tasks, setTasks] = useState([]);
 
     const getTasks = () => {
-        return axiosInstance.get('/todo/tasks')
+        return axiosInstance.get(`${API_URL}/v1/todo/tasks`)
             .then(response => {
-                setTasks(response.data.data);
+                setTasks(response.data.data); // Set the tasks in state
             })
             .catch(error => {
                 console.error(error);
@@ -28,9 +28,9 @@ const App = () => {
     };
 
     const addTask = (formData) => {
-        return axiosInstance.post('/todo/tasks', formData)
+        return axiosInstance.post(`${API_URL}/v1/todo/tasks`, formData)
             .then(response => {
-                setTasks([...tasks, response.data]);
+                setTasks([...tasks, response.data]); // Add the new task to the tasks array in state
             })
             .catch(error => {
                 console.error(error);
@@ -38,11 +38,11 @@ const App = () => {
     };
 
     const updateTask = (todo) => {
-        return axiosInstance.put(`/todo/tasks/${todo.id}`, todo);
+        return axiosInstance.put(`${API_URL}/v1/todo/tasks/${todo.id}`, todo);
     };
 
     const deleteTask = (id) => {
-        return axiosInstance.delete(`/todo/tasks/${id}`);
+        return axiosInstance.delete(`${API_URL}/v1/todo/tasks/${id}`);
     };
 
     const [name, setName] = useState('');
@@ -52,7 +52,7 @@ const App = () => {
     const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        // Todo: Perform any necessary form validation or data processing here
+        //Todo: Perform any necessary form validation or data processing here
 
         // Call the addTask function with the form data
         const formData = {
