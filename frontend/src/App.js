@@ -1,68 +1,101 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import './App.css';
-import X9qeQTL from './X9qeQTL.jpeg';
+import axios from "axios";
 
-const API_URL = 'http://localhost:4000';
+const API_URL = 'http://0.0.0.0:4000';
 
 const App = () => {
-    const [tasks, setTasks] = useState([]);
+    const [responseData, setResponseData] = useState(null); // Add state to store the response data
 
-    const getTodos = () => {
+    const getTasks = () => {
         return axios.get(`${API_URL}/v1/todo/tasks`);
     };
 
-    const addTodo = (formData) => {
-        return axios.post(`${API_URL}/v1/todo/tasks`, formData);
+    const addTask = (formData) => {
+        return axios.post(`${API_URL}/v1/todo/tasks`, formData)
+            .then(response => {
+                setResponseData(response.data); // Set the response data in state
+            })
+            .catch(error => {
+                console.error(error);
+            });
     };
 
-    const updateTodo = (todo) => {
+    const updateTask = (todo) => {
         return axios.put(`${API_URL}/v1/todo/tasks/${todo.id}`, todo);
     };
 
-    const deleteTodo = (id) => {
+    const deleteTask = (id) => {
         return axios.delete(`${API_URL}/v1/todo/tasks/${id}`);
     };
 
- /*   const handleFormSubmit = (event) => {
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [dueDate, setDueDate] = useState('');
+
+    const handleFormSubmit = (event) => {
         event.preventDefault();
 
-        const taskDescription = event.target.task.value;
+        //Todo: Perform any necessary form validation or data processing here
 
-        const newTask = {
-            id: Date.now(),
-            description: taskDescription,
+        // Call the addTask function with the form data
+        const formData = {
+            name: name,
+            description: description,
+            dueDate: dueDate
         };
+        addTask(formData);
 
-        setTasks([...tasks, newTask]);
-
-        event.target.task.value = '';
+        // Clear the form fields after submission
+        setName('');
+        setDescription('');
+        setDueDate('');
     };
 
     return (
         <div className="app-container">
-            <h1>Tasks List</h1>
-            <form onSubmit={handleFormSubmit}>
-                <input type="text" name="task" placeholder="Enter a task" />
-                <button type="submit">Add Task</button>
-            </form>
-            <ul>
-                {tasks.map((task) => (
-                    <li key={task.id}>{task.description}</li>
-                ))}
-            </ul>
-        </div>
-    );*/
-
-    return (
-        <div className="app-container">
-            <h1>Tasks List</h1>
-            <img src={X9qeQTL} alt="TODO List" className="photo" />
-            <ul>
-                <li>Invent new traffic lights</li>
-                <li>Rehearse a movie scene</li>
-                <li>Improve the spectrum technology</li>
-            </ul>
+            <div className="background-image-blur"></div>
+            <div className="foreground-container">
+                <h1 className="center-heading">Task</h1>
+                <form onSubmit={handleFormSubmit} className="form-container">
+                    <div className="form-row">
+                        <div className="form-group">
+                            <label htmlFor="name">Name:</label>
+                            <input
+                                type="text"
+                                id="name"
+                                name="name"
+                                value={name}
+                                onChange={(event) => setName(event.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="description">Description:</label>
+                            <input
+                                type="text"
+                                id="description"
+                                name="description"
+                                value={description}
+                                onChange={(event) => setDescription(event.target.value)}
+                                required
+                            />
+                        </div>
+                        <div className="form-group">
+                            <label htmlFor="dueDate">Due Date:</label>
+                            <input
+                                type="date"
+                                id="dueDate"
+                                name="dueDate"
+                                value={dueDate}
+                                onChange={(event) => setDueDate(event.target.value)}
+                                required
+                            />
+                        </div>
+                    </div>
+                    <button type="submit">Submit</button>
+                </form>
+            </div>
         </div>
     );
 };

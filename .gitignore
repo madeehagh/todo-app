@@ -13,6 +13,7 @@ dist/
 
 # Ignore log files
 *.log
+*.conf*
 
 # Ignore macOS specific files
 .DS_Store
