@@ -28,7 +28,6 @@ The project follows the following structure:
   - `models`: This directory contains the data models or schemas for your application.
   - `middlewares`: This directory contains the custom middleware functions used in your application.
   - `services`: This directory contains the service classes that encapsulate the business logic and interact with the database or external services.
-  - `utils`: This directory contains utility functions or helper classes used throughout your application.
 - `tests`: This directory contains the test files for your backend server.
 - `package.json`: This file contains the metadata and dependencies for your project.
 - `tsconfig.json`: This file is the TypeScript configuration file. It specifies the compiler options and project settings.
