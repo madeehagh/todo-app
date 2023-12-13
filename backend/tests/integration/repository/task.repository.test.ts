@@ -3,15 +3,15 @@ import {TaskRepository} from '../../../src/repository/task.repository';
 import {generateUniqueName, taskRequestData} from "../../helper/TestInput";
 
 const prismaClient = new PrismaClient();
-const taskRepository = new TaskRepository();
+let taskRepository:TaskRepository
 
 describe('TaskRepository Integration Test', () => {
     beforeAll(async () => {
-        await prismaClient.$connect();
+        taskRepository = new TaskRepository();
     });
 
     afterAll(async () => {
-        await prismaClient.$disconnect();
+        await taskRepository.disconnect();
     });
 
     beforeEach(async () => {

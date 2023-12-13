@@ -23,7 +23,14 @@ The application covers following functionalities.
     2. Axios
     3. Jest
 
-## Getting Started
+### Improvements
+1. [ ] Some of the improvements are mentioned in `Improvement` section in [backend/readMe.md](backend/readMe.md)
+2. [ ] In order to ensure security of the system, add stricter checks on header values and request body pattern check
+3. [ ] Other than that, for the overall project common linting needs to be added.
+4. [ ] Managing to different packages is tedious with 2 package.json. I would create a shared package.json
+5. [ ] Frontend has very basic functionality, a lot more could be added on the validation and performance side. Like caching on get requests. 
+
+### Getting Started
 
 To get started with the project, follow these steps:
 

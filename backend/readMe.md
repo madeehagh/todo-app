@@ -10,24 +10,31 @@ I have used prisma as an ORM tool, which can be integrated with any DB, in my ca
 3. Used api doc for generating API doc for each endpoint.
 
 ## Improvement
-1. Add reminder to the task
-2. For now, I am expecting api-key in the header and checking the value for authorisation. UserId passed in task endpoints is used for authorisation
-I would rather move to jwt for authentication and authorisation.
-3. Add more validations on the request body and param in the request
+1. [ ]  Add reminder to the task
+2. [ ]  For now, I am expecting api-key in the header and checking the value for authorisation. 
+To save time I have added UserId passed in task endpoints, which is used for authorisation. I would rather move to jwt for authentication and authorisation.
+3. [ ]  Add more validations on the request body and param in the request
 
 ## Project Structure
 
 The project follows the following structure:
 
 - `src`: This is the root directory for your TypeScript source code.
-    - `controllers`: This directory contains the controller classes that handle the business logic for different routes or resources.
-    - `models`: This directory contains the model classes that represent the data structures used in your application.
-    - `routes`: This directory contains the route files that define the API routes and their corresponding controller methods.
-    - `database`: This directory contains the database-related files, including the database connection setup and migration files.
-    - `app.ts`: This file is the entry point of your application. It sets up the Express.js server, registers the routes, and starts the server.
+  - `controllers`: This directory contains the controller classes that handle the business logic for different routes or resources.
+  - `routes`: This directory contains the route files that define the API routes and their corresponding controller methods.
+  - `app.ts`: This file is the entry point of your application. It sets up the Express.js server, registers the routes, and starts the server.
+  - `models`: This directory contains the data models or schemas for your application.
+  - `middlewares`: This directory contains the custom middleware functions used in your application.
+  - `services`: This directory contains the service classes that encapsulate the business logic and interact with the database or external services.
+  - `utils`: This directory contains utility functions or helper classes used throughout your application.
+- `tests`: This directory contains the test files for your backend server.
 - `package.json`: This file contains the metadata and dependencies for your project.
 - `tsconfig.json`: This file is the TypeScript configuration file. It specifies the compiler options and project settings.
-
+- `.env`: This file is used to store environment variables for your application.
+- `docker-compose.yml`: This file is used to define the Docker services and configurations for your application.
+- `apidoc.json`: This file is the configuration file for generating API documentation using the apidoc tool.
+- `doc/`: This directory contains the generated API documentation files.
+- `prisma/`: This directory contains the Prisma configuration files and migrations for your database.
 
 ## Getting Started
 
