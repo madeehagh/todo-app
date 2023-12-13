@@ -15,6 +15,7 @@ I have used prisma as an ORM tool, which can be integrated with any DB, in my ca
 2. [ ]  For now, I am expecting api-key in the header and checking the value for authorisation. 
 To save time I have added UserId passed in task endpoints, which is used for authorisation. I would rather move to jwt for authentication and authorisation.
 3. [ ]  Add more validations on the request body and param in the request
+4. [ ] Encrypt user sensitive data like email in user table
 
 ## Project Structure
 

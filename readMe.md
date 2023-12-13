@@ -31,6 +31,7 @@ The application covers following functionalities.
 5. [ ] Handle more edge case scenarios for both backend and frontend
 6. [ ] Frontend has very basic functionality, a lot more could be added on the validation and performance side. 
 Like optimizing rendering and preventing re-rendering of components.  
+7. [ ] In order to support offline support, add localStorage API, sync the data with the server when user is online handling conflict that could arise
 
 ### Getting Started
 
