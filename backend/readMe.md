@@ -27,12 +27,12 @@ The project follows the following structure:
   - `controllers`: This directory contains the controller classes that handle the business logic for different routes or resources.
   - `routes`: This directory contains the route files that define the API routes and their corresponding controller methods.
   - `middlewares`: This directory contains the custom middleware functions used in the application.
-  - `services`: This directory contains the service classes that encapsulate the business logic and interact with the database or external services.
+  - `repository`: This directory contains the repository classes that interact with the database.
 - `tests`: This directory contains the test files for the backend server.
 - `package.json`: This file contains the metadata and dependencies for the project.
 - `tsconfig.json`: This file is the TypeScript configuration file. It specifies the compiler options and project settings.
 - `.env`: This file is used to store environment variables for the application.
-- `docker-compose.yml`: This file is used to define the Docker services and configurations for the application.
+- `docker-compose.yml`: This file is used to define the Docker services and configurations for the application. For now it is used to setup DB locally
 - `apidoc.json`: This file is the configuration file for generating API documentation using the apidoc tool.
 - `doc/`: This directory contains the generated API documentation files.
 - `prisma/`: This directory contains the Prisma configuration files and migrations for the database.
