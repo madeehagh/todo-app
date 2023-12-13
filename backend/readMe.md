@@ -25,7 +25,6 @@ The project follows the following structure:
   - `controllers`: This directory contains the controller classes that handle the business logic for different routes or resources.
   - `routes`: This directory contains the route files that define the API routes and their corresponding controller methods.
   - `app.ts`: This file is the entry point of your application. It sets up the Express.js server, registers the routes, and starts the server.
-  - `models`: This directory contains the data models or schemas for your application.
   - `middlewares`: This directory contains the custom middleware functions used in your application.
   - `services`: This directory contains the service classes that encapsulate the business logic and interact with the database or external services.
 - `tests`: This directory contains the test files for your backend server.
