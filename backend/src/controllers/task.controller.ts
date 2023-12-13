@@ -34,7 +34,7 @@ export class TaskController {
             const apiResponse = new ApiResponse(res);
             apiResponse.success(tasks);
         } catch (error: any) {
-            this.handleError(res, error);
+            this.handleError(res, ErrorMessages.APPLICATION_GENERIC_ERROR, error);
         }
     };
 
@@ -64,7 +64,7 @@ export class TaskController {
                 apiResponse.error(ErrorMessages.RECORD_NOT_FOUND, 404);
             }
         } catch (error: any) {
-            this.handleError(res, error);
+            this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
         }
     };
 
@@ -89,7 +89,7 @@ export class TaskController {
             const allTasks: Task[] = await this.taskRepository.getAllTasks();
             apiResponse.success({ newTask: newTaskAdded, allTasks: allTasks });
         } catch (error) {
-            this.handleError(res, error);
+            this.handleError(res, ErrorMessages.APPLICATION_GENERIC_ERROR, error);
         }
     };
 
@@ -118,7 +118,7 @@ export class TaskController {
                 apiResponse.error(ErrorMessages.RECORD_NOT_FOUND, 404);
             }
         } catch (error: any) {
-            this.handleError(res, error);
+            this.handleError(res, ErrorMessages.APPLICATION_GENERIC_ERROR,error);
         }
     };
 
@@ -141,14 +141,14 @@ export class TaskController {
             const apiResponse = new ApiResponse(res);
             apiResponse.success();
         } catch (error: any) {
-            this.handleError(res, error);
+            this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR, error);
         }
     };
 
-    private handleError(res: Response, error: any): void {
-        this.logger.error(ErrorMessages.APPLICATION_ERROR, error);
+    private handleError(res: Response, errorMessage: string,  error: any): void {
+        this.logger.error(errorMessage, error);
         const apiResponse = new ApiResponse(res);
-        apiResponse.error(ErrorMessages.APPLICATION_ERROR, 500);
+        apiResponse.error(errorMessage, 500);
     }
 
     private validateInput(req: Request, res: Response, next: () => void): void {

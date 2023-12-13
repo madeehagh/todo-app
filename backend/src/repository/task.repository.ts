@@ -1,4 +1,5 @@
-import { Prisma, PrismaClient, Task} from "@prisma/client";
+import {Prisma, Task} from "@prisma/client";
+import prisma from "../database/prisma.client";
 import {APILogger} from "../logger/api.logger";
 import {DatabaseError} from "../error/database.error";
 import {ErrorMessages} from "../constants/error.messages";
@@ -7,12 +8,9 @@ import {DefaultArgs} from "@prisma/client/runtime/library";
 export class TaskRepository {
     private logger: APILogger;
     private taskClient: Prisma.TaskDelegate<DefaultArgs>;
-    public prisma: PrismaClient;
     constructor() {
         this.logger = new APILogger();
-        this.prisma = new PrismaClient();
-        this.prisma.$connect();
-        this.taskClient = this.prisma.task;
+        this.taskClient = prisma.task;
     }
 
     async getAllTasks(): Promise<Task[]> {
@@ -81,6 +79,6 @@ export class TaskRepository {
      * This method closes connection to the database to prevent resource leaks and to free up system resources.
      */
     async disconnect(): Promise<void> {
-        await this.prisma.$disconnect();
+//        await this.prisma.$disconnect();
     }
 }

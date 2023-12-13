@@ -5,9 +5,10 @@ It is built using Node.js, TypeScript
 I have used prisma as an ORM tool, which can be integrated with any DB, in my case I am using sql.
 
 ## Assumptions
-1. Task name should be unique
-2. Task should not have timeline as past date time
-3. Used api doc for generating API doc for each endpoint.
+1. Task name should be unique.
+2. A user has flexibility to add dueDate, which should not be a past date.
+3. A user can modify/update the task(s) created by him/her.
+4. Lazy loading of DB connections
 
 ## Improvement
 1. [ ]  Add reminder to the task
@@ -42,7 +43,7 @@ To get started with the backend server, follow these steps:
 Before starting make sure API_KEY and DATABASE_URL='postgresql://root:root@localhost:5432/tasks-db?schema=task'
 
 
-1. Clone the repository: `git clone <repository-url>`
+1. Clone the repository: `git clone https://github.com/madeehagh/todo-app`
 2. Navigate to the backend directory: `cd backend`
 3. Install the dependencies: `npm install`
 4. Install docker on the local setUp and run command `docker-compose up -d` to install postgres

@@ -27,8 +27,10 @@ The application covers following functionalities.
 1. [ ] Some of the improvements are mentioned in `Improvement` section in [backend/readMe.md](backend/readMe.md)
 2. [ ] In order to ensure security of the system, add stricter checks on header values and request body pattern check
 3. [ ] Other than that, for the overall project common linting needs to be added.
-4. [ ] Managing to different packages is tedious with 2 package.json. I would create a shared package.json
-5. [ ] Frontend has very basic functionality, a lot more could be added on the validation and performance side. Like caching on get requests. 
+4. [ ] Managing to different packages is tedious with 2 package.json. I would create a shared package.json and bundle it in an efficient way.
+5. [ ] Handle more edge case scenarios for both backend and frontend
+6. [ ] Frontend has very basic functionality, a lot more could be added on the validation and performance side. 
+Like optimizing rendering and preventing re-rendering of components.  
 
 ### Getting Started
 

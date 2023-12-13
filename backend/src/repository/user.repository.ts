@@ -1,17 +1,16 @@
 import {APILogger} from "../logger/api.logger";
-import {PrismaClient, User} from "@prisma/client";
+import prisma from "../database/prisma.client";
 import {ErrorMessages} from "../constants/error.messages";
 import {DatabaseError} from "../error/database.error";
+import {User} from "@prisma/client";
 
 export class UserRepository {
     private logger: APILogger;
     private userClient;
-    private prisma: PrismaClient;
 
     constructor() {
         this.logger = new APILogger();
-        this.prisma = new PrismaClient();
-        this.userClient = this.prisma.user;
+        this.userClient = prisma.user;
     }
 
     async createUser(user:  Omit<User, "id">): Promise<User> {
@@ -23,7 +22,7 @@ export class UserRepository {
             this.logger.error(ErrorMessages.DB_CREATE_ERROR, error);
             throw new DatabaseError(ErrorMessages.DB_CREATE_ERROR);
         } finally {
-            await this.disconnect();
+             this.disconnect().then(r => this.logger.info('connection closed'));
         }
     }
 
@@ -33,6 +32,6 @@ export class UserRepository {
      * This method closes connection to the database to prevent resource leaks and to free up system resources.
      */
     async disconnect(): Promise<void> {
-        await this.prisma.$disconnect();
+       // await this.prisma.$disconnect();
     }
 }

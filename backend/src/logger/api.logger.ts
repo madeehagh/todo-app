@@ -19,7 +19,7 @@ const logger = createLogger({
 
 export class APILogger {
 
-    public info(message: string, data) {
+    public info(message: string, data?: string) {
         logger.info(`${message}   ${undefined != data ? JSON.stringify(data) : ''}`);
     }
 
