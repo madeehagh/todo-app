@@ -19,8 +19,6 @@ export class TaskRepository {
         } catch (error) {
             this.logger.error(ErrorMessages.DB_FETCH_ERROR, error);
             throw new DatabaseError(ErrorMessages.DB_FETCH_ERROR);
-        } finally {
-            await this.disconnect();
         }
     }
 
@@ -32,8 +30,6 @@ export class TaskRepository {
         } catch (error) {
             this.logger.error(ErrorMessages.DB_FETCH_ERROR, error);
             throw new DatabaseError(ErrorMessages.DB_FETCH_ERROR);
-        } finally {
-            await this.disconnect();
         }
     }
 
@@ -45,8 +41,6 @@ export class TaskRepository {
         } catch (error) {
             this.logger.error(ErrorMessages.DB_CREATE_ERROR, error);
             throw new DatabaseError(ErrorMessages.DB_CREATE_ERROR);
-        } finally {
-            await this.disconnect();
         }
     }
 
@@ -59,8 +53,6 @@ export class TaskRepository {
         } catch (error) {
             this.logger.error(ErrorMessages.DB_UPDATE_ERROR, error);
             throw new DatabaseError(ErrorMessages.DB_UPDATE_ERROR);
-        } finally {
-            await this.disconnect();
         }
     }
 
@@ -70,15 +62,17 @@ export class TaskRepository {
         } catch (error) {
             this.logger.error(ErrorMessages.DB_DELETE_ERROR, error);
             throw new DatabaseError(ErrorMessages.DB_DELETE_ERROR);
-        } finally {
-            await this.disconnect();
         }
     }
 
-    /**
-     * This method closes connection to the database to prevent resource leaks and to free up system resources.
-     */
-    async disconnect(): Promise<void> {
-//        await this.prisma.$disconnect();
+    async getTaskByName(taskName: string): Promise<Task | null> {
+        try {
+            return await this.taskClient.findFirst({
+                where: { name: taskName },
+            });
+        } catch (error) {
+            this.logger.error(ErrorMessages.DB_TASK_EXIST, error);
+            throw new DatabaseError(ErrorMessages.DB_TASK_EXIST);
+        }
     }
 }

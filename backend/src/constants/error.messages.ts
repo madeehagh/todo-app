@@ -3,6 +3,7 @@ export const ErrorMessages = {
     DB_CREATE_ERROR: "Error while creating record",
     DB_DELETE_ERROR: "Error while deleting the record",
     DB_UPDATE_ERROR: "Error while updating table",
+    DB_TASK_EXIST: "Task Name should be unique",
     INTERNAL_SERVER_ERROR: "Internal Server Error",
     RECORD_NOT_FOUND: "Record not found",
     APPLICATION_ERROR: "Something went wrong, check request before requesting again",

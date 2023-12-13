@@ -35,14 +35,14 @@ describe('TaskController', () => {
             expect(res.status).toHaveBeenCalledWith(200);
         });
 
-        it('should handle errors and return 500 status', async () => {
-            const errorMessage = ErrorMessages.APPLICATION_ERROR;
+        it('should return 400 status, if task exists', async () => {
+            const errorMessage = ErrorMessages.DB_TASK_EXIST;
             jest.spyOn(taskRepository, 'createTask').mockRejectedValue(new DatabaseError(errorMessage));
             req.body = taskRequestData;
 
             await taskController.createTask(req, res);
 
-            expect(res.status).toHaveBeenCalledWith(500);
+            expect(res.status).toHaveBeenCalledWith(400);
         });
     });
 });

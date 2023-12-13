@@ -10,10 +10,6 @@ describe('TaskRepository Integration Test', () => {
         taskRepository = new TaskRepository();
     });
 
-    afterAll(async () => {
-        await taskRepository.disconnect();
-    });
-
     beforeEach(async () => {
         await prismaClient.task.deleteMany();
     });

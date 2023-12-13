@@ -5,6 +5,7 @@ import { TaskRepository } from '../repository/task.repository';
 import { ErrorMessages } from '../constants/error.messages';
 import { ApiResponse } from '../response/api.response';
 import { validationResult, body } from 'express-validator';
+import {DatabaseError} from "../error/database.error";
 
 /**
  * @class TaskController
@@ -34,7 +35,11 @@ export class TaskController {
             const apiResponse = new ApiResponse(res);
             apiResponse.success(tasks);
         } catch (error: any) {
-            this.handleError(res, ErrorMessages.APPLICATION_GENERIC_ERROR, error);
+            if (error instanceof DatabaseError) {
+                this.handleDatabaseError(res, error);
+            } else {
+                this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
+            }
         }
     };
 
@@ -64,7 +69,11 @@ export class TaskController {
                 apiResponse.error(ErrorMessages.RECORD_NOT_FOUND, 404);
             }
         } catch (error: any) {
-            this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
+            if (error instanceof DatabaseError) {
+                this.handleDatabaseError(res, error);
+            } else {
+                this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
+            }
         }
     };
 
@@ -85,11 +94,20 @@ export class TaskController {
         const apiResponse = new ApiResponse(res);
 
         try {
+            const existingTask: Task | null = await this.taskRepository.getTaskByName(task.name);
+            if (existingTask) {
+                apiResponse.error('Task name must be unique to the user', 400);
+                return;
+            }
             const newTaskAdded: Task = await this.taskRepository.createTask(task);
             const allTasks: Task[] = await this.taskRepository.getAllTasks();
             apiResponse.success({ newTask: newTaskAdded, allTasks: allTasks });
         } catch (error) {
-            this.handleError(res, ErrorMessages.APPLICATION_GENERIC_ERROR, error);
+            if (error instanceof DatabaseError) {
+                this.handleDatabaseError(res, error);
+            } else {
+                this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
+            }
         }
     };
 
@@ -118,7 +136,11 @@ export class TaskController {
                 apiResponse.error(ErrorMessages.RECORD_NOT_FOUND, 404);
             }
         } catch (error: any) {
-            this.handleError(res, ErrorMessages.APPLICATION_GENERIC_ERROR,error);
+            if (error instanceof DatabaseError) {
+                this.handleDatabaseError(res, error);
+            } else {
+                this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
+            }
         }
     };
 
@@ -141,7 +163,11 @@ export class TaskController {
             const apiResponse = new ApiResponse(res);
             apiResponse.success();
         } catch (error: any) {
-            this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR, error);
+            if (error instanceof DatabaseError) {
+                this.handleDatabaseError(res, error);
+            } else {
+                this.handleError(res,ErrorMessages.APPLICATION_GENERIC_ERROR,  error);
+            }
         }
     };
 
@@ -149,6 +175,11 @@ export class TaskController {
         this.logger.error(errorMessage, error);
         const apiResponse = new ApiResponse(res);
         apiResponse.error(errorMessage, 500);
+    }
+
+    private handleDatabaseError(res: Response, error: DatabaseError): void {
+        const apiResponse = new ApiResponse(res);
+        apiResponse.error(ErrorMessages.APPLICATION_GENERIC_ERROR, 500);
     }
 
     private validateInput(req: Request, res: Response, next: () => void): void {
