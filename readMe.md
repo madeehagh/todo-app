@@ -37,7 +37,7 @@ Like optimizing rendering and preventing re-rendering of components.
 
 To get started with the project, follow these steps:
 
-1. Clone the repository: `git clone <repository-url>`
+1. Clone the repository: `git clone https://github.com/madeehagh/todo-app`
 2. Run `nvm use` to install node version mentioned in .nvmrc, `nvm install` if the version is not installed on your system
 3. Install the dependencies: `npm install`
 4. Steps to set up backend is mentioned in [backend/readMe.md](backend/readMe.md)
