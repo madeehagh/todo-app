@@ -55,11 +55,11 @@ export class TaskRepository {
             });
 
             if (!task) {
-                throw new Error("Task not found");
+                throw new Error(ErrorMessages.RECORD_NOT_FOUND);
             }
             if (userId) {
                 if (task.userId !== userId) {
-                    throw new Error("User is not authorized to update this task");
+                    throw new Error(ErrorMessages.USER_NOT_AUTHORISED_TO_PERFORM_OPERATION);
                 }
             }
 
@@ -73,8 +73,14 @@ export class TaskRepository {
         }
     }
 
-    async deleteTask(taskId: string): Promise<void> {
+    async deleteTask(taskId: string, userId?: string): Promise<void> {
         try {
+            if(userId) {
+                const task = await this.getTaskById(taskId);
+                const taskUserId = task?.userId ?? '';
+                if (taskUserId !== userId)
+                    throw new Error(ErrorMessages.USER_NOT_AUTHORISED_TO_PERFORM_OPERATION);
+            }
             await this.taskClient.delete({ where: { id: taskId } });
         } catch (error) {
             this.logger.error(ErrorMessages.DB_DELETE_ERROR, error);

@@ -126,9 +126,10 @@ export class TaskController {
     updateTask = async (req: Request, res: Response): Promise<void> => {
         const { id } = req.params as { id: string };
         const updatedTask: Task = req.body as Task;
+        const userId: string = updatedTask.userId;
 
         try {
-            const taskUpdated: Task | null = await this.taskRepository.updateTask(id, null, updatedTask);
+            const taskUpdated: Task | null = await this.taskRepository.updateTask(id, userId, updatedTask);
             const apiResponse = new ApiResponse(res);
             if (taskUpdated) {
                 apiResponse.success(taskUpdated);
