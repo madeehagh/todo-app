@@ -17,7 +17,7 @@ Configure API_KEY and TODO_APP_BACKEND_URL in your .env file.
 
 ### Snapshot
 
-![](/Users/administrator/WebstormProjects/todo-app/frontend/snapshots/grocery-list.png)
+![](/Users/administrator/WebstormProjects/todo-app/frontend/snapshots/task-form-snapshot.png)
 
 ### `npm test`
 Launches the test runner in the interactive watch mode.

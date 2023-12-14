@@ -10,6 +10,14 @@ services:
       - postgres:/var/lib/postgresql/data
     ports:
       - '5432:5432'
-
+  node-app:
+    build:
+      context: ./
+      dockerfile: Dockerfile
+    restart: always
+    ports:
+      - '4000:4000'
+    depends_on:
+      - postgres
 volumes:
   postgres:

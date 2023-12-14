@@ -74,6 +74,11 @@ body {
   margin-bottom: 1rem;
 }
 
+.task-actions{
+  display: flex;
+  gap: 5px;
+}
+
 .form-group {
   flex: 1;
   margin-right: 1rem;
@@ -97,6 +102,24 @@ button[type="submit"] {
   background: #ff9900;
   color: #fff;
   padding: 0.5rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  border: none;
+}
+
+button[name="edit"] {
+  background: #ff9900;
+  color: #fff;
+  padding: 0.2rem 1rem;
+  border-radius: 30px;
+  cursor: pointer;
+  border: none;
+}
+
+button[name="delete"] {
+  background: #ff9900;
+  color: #fff;
+  padding: 0.2rem 1rem;
   border-radius: 20px;
   cursor: pointer;
   border: none;

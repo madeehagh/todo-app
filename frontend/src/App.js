@@ -145,8 +145,11 @@ const App = () => {
                                     <p>{task.description}</p>
                                     <p>Due Date: {localizeDate(task.dueDate)}</p>
                                 </label>
-                                    <button onClick={() => updateTask(task)}>Edit</button>
-                                    <button onClick={() => deleteTask(task.id)}>Delete</button>
+                                <div className="task-actions">
+
+                                    <button name="edit" onClick={() => updateTask(task)}>Edit</button>
+                                    <button name="delete" onClick={() => deleteTask(task.id)}>Delete</button>
+                                </div>
                             </div>
                         ))}
                     </div>
