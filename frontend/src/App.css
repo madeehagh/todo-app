@@ -125,7 +125,11 @@ button[type="submit"] {
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
   margin: 20px;
   backdrop-filter: none;
-  filter: none; /* Add this line to remove the blur effect */
+  filter: none;
+}
+
+.form-container {
+  text-align: center;
 }
 
 .Card {

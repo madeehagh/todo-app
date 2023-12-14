@@ -6,8 +6,7 @@ import taskRoutes from './routes/task.routes';
 import userRoutes from './routes/user.routes';
 import {authorizationMiddleware} from "./middlewares/authorization.middleware";
 import { loggingMiddleware } from './middlewares/logging.middleware';
-import { corsMiddleware } from './middlewares/cors.middleware';
-
+import cors from 'cors'
 class App {
     public app: Application;
     private logger: APILogger;
@@ -21,7 +20,7 @@ class App {
     }
 
     private configureMiddleware() {
-        this.app.use(corsMiddleware);
+        this.app.use(cors());
         this.app.use(bodyParser.json());
         this.app.use(bodyParser.urlencoded({ extended: true }));
         this.app.use(authorizationMiddleware);

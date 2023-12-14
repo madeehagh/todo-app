@@ -15,6 +15,9 @@ Configure API_KEY and TODO_APP_BACKEND_URL in your .env file.
 2. `npm i` from the root directory of frontend
 3. `npm start` The web page will be rendered at http://localhost:3000
 
+### Snapshot
+
+![](/Users/administrator/WebstormProjects/todo-app/frontend/snapshots/grocery-list.png)
 
 ### `npm test`
 Launches the test runner in the interactive watch mode.
