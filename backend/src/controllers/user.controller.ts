@@ -4,6 +4,7 @@ import {Request, Response} from "express";
 import { User} from "@prisma/client";
 import {ApiResponse} from "../response/api.response";
 import {ErrorMessages} from "../constants/error.messages";
+import jwt from 'jsonwebtoken';
 
 export class UserController {
     private logger: APILogger;

@@ -23,7 +23,8 @@
     "generate-api-doc": "apidoc -i src/ -o doc/",
     "prisma-ui": " npx prisma studio",
     "seed:user": "npx ts-node prisma/seed/user.seed.ts",
-    "seed:task": "npx ts-node prisma/seed/task.seed.ts"
+    "seed:task": "npx ts-node prisma/seed/task.seed.ts",
+    "install-backend": "docker-compose up -d && npx prisma migrate dev --name init && npm start"
   },
   "author": "madeehagh",
   "license": "ISC",
@@ -47,6 +48,7 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/jest": "^29.5.11",
+    "@types/jsonwebtoken": "^9.0.5",
     "@types/node": "^20.10.4",
     "@types/supertest": "^2.0.16",
     "@types/validator": "^13.11.7",

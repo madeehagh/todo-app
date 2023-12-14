@@ -44,8 +44,25 @@ export class TaskRepository {
         }
     }
 
-    async updateTask(taskId: string, updatedTask: Partial<Task>): Promise<Task | null> {
+    async updateTask(
+        taskId: string,
+        userId?: string,
+        updatedTask?: Partial<Task>
+    ): Promise<Task | null> {
         try {
+            const task = await this.taskClient.findUnique({
+                where: { id: taskId },
+            });
+
+            if (!task) {
+                throw new Error("Task not found");
+            }
+            if (userId) {
+                if (task.userId !== userId) {
+                    throw new Error("User is not authorized to update this task");
+                }
+            }
+
             return await this.taskClient.update({
                 where: { id: taskId },
                 data: { ...updatedTask },

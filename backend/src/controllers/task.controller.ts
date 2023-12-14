@@ -128,7 +128,7 @@ export class TaskController {
         const updatedTask: Task = req.body as Task;
 
         try {
-            const taskUpdated: Task | null = await this.taskRepository.updateTask(id, updatedTask);
+            const taskUpdated: Task | null = await this.taskRepository.updateTask(id, null, updatedTask);
             const apiResponse = new ApiResponse(res);
             if (taskUpdated) {
                 apiResponse.success(taskUpdated);

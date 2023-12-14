@@ -1,4 +1,5 @@
 import {NextFunction, Request, Response} from "express";
+import 'dotenv/config';
 
 export const authorizationMiddleware = (req: Request, res: Response, next: NextFunction) => {
     const apiKey = req.get('x-api-key');

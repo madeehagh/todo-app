@@ -41,7 +41,12 @@ The project follows the following structure:
 
 To get started with the backend server, follow these steps:
 Before starting make sure API_KEY and DATABASE_URL='postgresql://root:root@localhost:5432/tasks-db?schema=task'
+1. Clone the repository: `git clone https://github.com/madeehagh/todo-app`
+2. Navigate to the backend directory: `cd backend`
+3. Make sure the docker daemon is up and running
+4. Run `npm install-backend`
 
+Alternatively, 
 
 1. Clone the repository: `git clone https://github.com/madeehagh/todo-app`
 2. Navigate to the backend directory: `cd backend`
