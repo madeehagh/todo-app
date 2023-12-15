@@ -23,6 +23,10 @@ The application covers following functionalities.
     2. Axios
     3. Jest
 
+### Snapshot
+
+![](./frontend/snapshots/task-form-snapshot.png)
+
 ### Improvements
 1. [ ] Some of the improvements are mentioned in `Improvement` section in [backend/readMe.md](backend/readMe.md)
 2. [ ] In order to ensure security of the system, add stricter checks on header values and request body pattern check
